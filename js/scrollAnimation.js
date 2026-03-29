@@ -5,10 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const row = document.querySelector('.row');
     if (row) row.style.overflow = 'hidden';
 
-    const coefficient = window.innerWidth > 768 ? 0.5 : 0.3;
-    let origin = window.innerHeight * (1 - coefficient);
-
-    // 正确节流
+    // 节流函数
     function throttle(func, limit) {
         let inThrottle;
         return function () {
@@ -20,22 +17,18 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
-    // 核心：强制设置 CSS 变量
+    // ✅ 关键：卡片【完全进入屏幕】再显示
     function updateCards() {
         cards.forEach(card => {
-            const top = card.getBoundingClientRect().top;
-            const show = top < origin ? 1 : 0;
-
-            // 最稳定的赋值方式，不会解析失败
-            card.style.setProperty('--state', show);
+            const rect = card.getBoundingClientRect();
+            const viewHeight = window.innerHeight;
+            // 卡片进入屏幕 80% 就开始放大
+            const isAlmostIn = rect.top < viewHeight * 0.8 && rect.bottom > 0;
+            card.style.setProperty('--state', isAlmostIn ? 1 : 0);
         });
     }
 
-    // 立即执行 + 滚动执行
     updateCards();
-    window.addEventListener('scroll', throttle(updateCards, 100));
-    window.addEventListener('resize', throttle(() => {
-        origin = window.innerHeight * (1 - coefficient);
-        updateCards();
-    }, 200));
+    window.addEventListener('scroll', throttle(updateCards, 80));
+    window.addEventListener('resize', throttle(updateCards, 200));
 });
