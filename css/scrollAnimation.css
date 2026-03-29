@@ -1,100 +1,21 @@
-/* ========================================
-   首页卡片滚动视差效果（与 JS 配合）
-   ======================================== */
-
-/* 确保行容器正确包裹 */
-.row {
-  overflow: hidden;
-}
-
-/* 卡片基础样式 */
+/* ======== 卡片滚动渐入动画 ======== */
 .index-card {
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  transform: translateY(0);
-  opacity: 1;
+  /* 强制给默认值，浏览器必认 */
+  --state: 0 !important;
+
+  /* 基础样式 */
+  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transform: translateY(20px) scale(0.9);
+  opacity: 0.6;
+  margin-bottom: 2rem;
 }
 
-/* JS 控制的状态：当卡片滚动到触发区域时，应用效果 */
+/* 激活状态：完全显示 */
 .index-card[style*="--state: 1"] {
-  transform: translateY(30px);
-  opacity: 0.5;
+  transform: translateY(0px) scale(1) !important;
+  opacity: 1 !important;
 }
 
-.index-card[style*="--state: 0"] {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-/* ========================================
-   文章卡片样式增强
-   ======================================== */
-
-/* 卡片圆角+阴影+悬浮效果 */
-.index-card,
-#board {
-  border-radius: 16px;
-  transition: all 0.3s ease;
-}
-
-.index-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-/* 暗色模式卡片边框 */
-html[data-theme='dark'] .index-card,
-html[data-theme='dark'] #board {
-  border: 1px solid #30363d;
-  background-color: #161b22;
-}
-
-/* ========================================
-   两侧背景光晕效果
-   ======================================== */
-
-html[data-theme='dark'] {
-  position: relative;
-}
-
-html[data-theme='dark']::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 15%;
-  height: 100%;
-  background: radial-gradient(ellipse at left, rgba(88, 166, 255, 0.08), transparent);
-  pointer-events: none;
-  z-index: 0;
-}
-
-html[data-theme='dark']::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 15%;
-  height: 100%;
-  background: radial-gradient(ellipse at right, rgba(88, 166, 255, 0.08), transparent);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* 确保文章内容在光晕上层 */
-.index-card,
-#board {
-  position: relative;
-  z-index: 1;
-}
-
-/* ========================================
-   文章两侧留白（可选）
-   ======================================== */
-
-@media (min-width: 1200px) {
-  .container .row .col-lg-8 {
-    max-width: 70% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
+.index-img img {
+  margin: 20px 0;
 }

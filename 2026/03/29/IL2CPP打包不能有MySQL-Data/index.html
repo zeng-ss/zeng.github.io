@@ -21,24 +21,26 @@
   <meta name="author" content="Zeng">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Addressable ：加载场景后立即释放句柄导致场景被卸载前言在使用 Unity Addressable 资源管理系统时，遇到这样一个奇怪的问题：场景明明已经加载完成，却显示为一片蓝色（或空白），场景中的物体虽然存在但渲染异常。搜索良久，最终发现问题竟然出在一句看似无害的代码——Addressables.Release(handle)。 现象描述使用 Addressables.LoadScen">
+    <meta name="description" content="IL2CPP ：MySQL.Data 打包报错——替换为 MySqlConnector前言在 Unity 项目中使用 MySQL 数据库时，我选择了官方提供的 MySQL.Data.dll 作为数据库驱动。然而，当项目从 Mono 切换到 IL2CPP 打包时，常常会遇到两个致命错误：  ExecutionEngineException: reloading placeholder assembl">
 <meta property="og:type" content="article">
-<meta property="og:title" content="场景被卸载导致显示异常解决办法">
-<meta property="og:url" content="https://zeng-ss.github.io/zeng.github.io/2026/03/29/%E5%9C%BA%E6%99%AF%E8%A2%AB%E5%8D%B8%E8%BD%BD%E5%AF%BC%E8%87%B4%E5%BC%82%E5%B8%B8/index.html">
+<meta property="og:title" content="IL2CPP打包MySQL.Data得替换成MySqlConnector">
+<meta property="og:url" content="https://zeng-ss.github.io/zeng.github.io/2026/03/29/IL2CPP%E6%89%93%E5%8C%85%E4%B8%8D%E8%83%BD%E6%9C%89MySQL-Data/index.html">
 <meta property="og:site_name" content="两年半的曾">
-<meta property="og:description" content="Addressable ：加载场景后立即释放句柄导致场景被卸载前言在使用 Unity Addressable 资源管理系统时，遇到这样一个奇怪的问题：场景明明已经加载完成，却显示为一片蓝色（或空白），场景中的物体虽然存在但渲染异常。搜索良久，最终发现问题竟然出在一句看似无害的代码——Addressables.Release(handle)。 现象描述使用 Addressables.LoadScen">
+<meta property="og:description" content="IL2CPP ：MySQL.Data 打包报错——替换为 MySqlConnector前言在 Unity 项目中使用 MySQL 数据库时，我选择了官方提供的 MySQL.Data.dll 作为数据库驱动。然而，当项目从 Mono 切换到 IL2CPP 打包时，常常会遇到两个致命错误：  ExecutionEngineException: reloading placeholder assembl">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-03-29T12:03:01.000Z">
-<meta property="article:modified_time" content="2026-03-29T12:17:51.483Z">
+<meta property="og:image" content="https://zeng-ss.github.io/zeng.github.io/Mysql.png">
+<meta property="article:published_time" content="2026-03-29T13:18:26.000Z">
+<meta property="article:modified_time" content="2026-03-29T13:31:53.211Z">
 <meta property="article:author" content="Zeng">
 <meta property="article:tag" content="Addressable">
-<meta property="article:tag" content="Addressables.Release(handle)">
 <meta property="article:tag" content="Hybridclr">
+<meta property="article:tag" content="MySQL.Data &gt; MySqlConnector">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zeng-ss.github.io/zeng.github.io/Mysql.png">
   
   
   
-  <title>场景被卸载导致显示异常解决办法 - 两年半的曾</title>
+  <title>IL2CPP打包MySQL.Data得替换成MySqlConnector - 两年半的曾</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -354,7 +356,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="场景被卸载导致显示异常解决办法"></span>
+            <span id="subtitle" data-typed-text="IL2CPP打包MySQL.Data得替换成MySqlConnector"></span>
           
         </div>
 
@@ -365,7 +367,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-03-29 20:03" pubdate>
+        <time datetime="2026-03-29 21:18" pubdate>
           2026年3月29日 晚上
         </time>
       </span>
@@ -377,7 +379,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k 字
+          757 字
         
       </span>
     
@@ -388,7 +390,7 @@
         
         
         
-          13 分钟
+          7 分钟
         
       </span>
     
@@ -427,25 +429,21 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">场景被卸载导致显示异常解决办法</h1>
+            <h1 id="seo-header">IL2CPP打包MySQL.Data得替换成MySqlConnector</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Addressable-：加载场景后立即释放句柄导致场景被卸载"><a href="#Addressable-：加载场景后立即释放句柄导致场景被卸载" class="headerlink" title="Addressable ：加载场景后立即释放句柄导致场景被卸载"></a>Addressable ：加载场景后立即释放句柄导致场景被卸载</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在使用 Unity Addressable 资源管理系统时，遇到这样一个奇怪的问题：场景明明已经加载完成，却显示为一片蓝色（或空白），场景中的物体虽然存在但渲染异常。搜索良久，最终发现问题竟然出在一句看似无害的代码——Addressables.Release(handle)。</p>
-<h2 id="现象描述"><a href="#现象描述" class="headerlink" title="现象描述"></a>现象描述</h2><p>使用 Addressables.LoadSceneAsync 加载场景<br>场景加载完成后，调用了 Addressables.Release(handle) 释放句柄<br>场景虽然存在（GameObject 节点可见），但显示为蓝色&#x2F;空白</p>
-<p>Unity社区也有老哥遇到了这个问题，也是受到他的启发</p>
+                <h1 id="IL2CPP-：MySQL-Data-打包报错——替换为-MySqlConnector"><a href="#IL2CPP-：MySQL-Data-打包报错——替换为-MySqlConnector" class="headerlink" title="IL2CPP ：MySQL.Data 打包报错——替换为 MySqlConnector"></a>IL2CPP ：MySQL.Data 打包报错——替换为 MySqlConnector</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 Unity 项目中使用 MySQL 数据库时，我选择了官方提供的 MySQL.Data.dll 作为数据库驱动。然而，当项目从 Mono 切换到 IL2CPP 打包时，常常会遇到两个致命错误：</p>
 <blockquote>
-<p>“问题已解决，最终发现是自己在场景加载完毕后加了一句 Addressables.Release(handle) 销毁了句柄。注释掉这句以后显示正常，场景切换时调用 Addressables.UnloadSceneAsync 也不报错了。”</p>
+<p>ExecutionEngineException: reloading placeholder assembly is not supported!<br>NotSupportedException: System.Configuration.ConfigurationManager::GetSection</p>
 </blockquote>
-<p>真可谓前人栽树后人乘凉啊，之前在做恐怖游戏项目对热更新的接入时候也遇到了这个问题，但是受限于当时脑容量不够加之项目太大打包一次十多分钟便没了耐心，不过得再次感谢老哥的解答🫡🫡🫡</p>
-<p>原理就不多说了，详情请见文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/gbdsbgghj/article/details/159599149?spm=1001.2014.3001.5502">文章跳转</a></p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>方案一：注释掉 Release 调用<br>如果代码中错误地调用了 Addressables.Release(handle)，直接注释掉即可。</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs C#"><span class="hljs-comment">// 错误写法</span><br>AsyncOperationHandle&lt;SceneInstance&gt; handle = Addressables.LoadSceneAsync(<span class="hljs-string">&quot;MyScene&quot;</span>);<br><span class="hljs-keyword">await</span> handle.Task;<br>Addressables.Release(handle);  <span class="hljs-comment">// 这行会卸载场景！</span><br> <br><span class="hljs-comment">// 正确写法</span><br>AsyncOperationHandle&lt;SceneInstance&gt; handle = Addressables.LoadSceneAsync(<span class="hljs-string">&quot;MyScene&quot;</span>);<br><span class="hljs-keyword">await</span> handle.Task;<br><span class="hljs-comment">// 不要释放句柄！让场景保持加载状态</span><br></code></pre></td></tr></table></figure>
-<p>方案二：保存句柄供后续卸载使用</p>
-<p>如果需要稍后卸载场景，应该保存句柄，并在卸载时传递给 UnloadSceneAsync：</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs C#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SceneLoader</span> : <span class="hljs-title">MonoBehaviour</span><br>&#123;<br>    <span class="hljs-keyword">private</span> AsyncOperationHandle&lt;SceneInstance&gt; _sceneHandle;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">void</span> <span class="hljs-title">LoadGameScene</span>()</span><br>    &#123;<br>        <span class="hljs-comment">// 加载场景并保存句柄</span><br>        _sceneHandle = Addressables.LoadSceneAsync(<span class="hljs-string">&quot;GameScene&quot;</span>, LoadSceneMode.Additive);<br>        <span class="hljs-keyword">await</span> _sceneHandle.Task;<br>        <br>        <span class="hljs-comment">// 注意：此处不要调用 Release！</span><br>        Debug.Log(<span class="hljs-string">&quot;场景加载完成&quot;</span>);<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">UnloadGameScene</span>()</span><br>    &#123;<br>        <span class="hljs-keyword">if</span> (_sceneHandle.IsValid())<br>        &#123;<br>            <span class="hljs-comment">// 正确的卸载方式：使用 UnloadSceneAsync</span><br>            Addressables.UnloadSceneAsync(_sceneHandle, UnloadSceneOptions.None);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>那还说啥了，两年半的爱坤，必须感谢素未相识的老哥！！！</p>
+<p>最佳解决方案：使用 MySqlConnector 替换官方 MySQL.Data。MySqlConnector 是 MySQL 官方推荐的轻量级替代品，不依赖 System.Configuration，对 IL2CPP 有完整的兼容性支持。</p>
+<p>解决详情请看文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/gbdsbgghj/article/details/159572534?spm=1001.2014.3001.5502">文章跳转</a></p>
+<p>最后确保是如图就行：<br><img src="/zeng.github.io/Mysql.png" srcset="/zeng.github.io/img/loading.gif" lazyload alt="如图"></p>
+<p>同时，将代码中的命名空间从 <strong>MySql.Data.MySqlClient</strong> 改为 <strong>MySqlConnector</strong>：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C#"><span class="hljs-comment">// 原 MySQL.Data 写法</span><br><span class="hljs-comment">// using MySql.Data.MySqlClient;</span><br> <br><span class="hljs-comment">// 替换为 MySqlConnector</span><br><span class="hljs-keyword">using</span> MySqlConnector;<br></code></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>替换为 <strong>MySqlConnector</strong> 是解决 <strong>Unity IL2CPP</strong> 环境下 MySQL 连接问题的标准方案。关键在于：<br>移除 原有的 <strong>MySQL.Data.dll</strong><br>下载 <strong>MySqlConnector.dll</strong> 及其全部依赖项<br>放置 所有 DLL 到 <strong>Assets&#x2F;Plugins</strong><br>修改 代码命名空间为 <strong>MySqlConnector</strong><br>按照上述步骤操作，即可在 iOS、Android、WebGL 等强制要求 IL2CPP 的平台上正常使用 MySQL 数据库。</p>
 
                 
               </div>
@@ -497,7 +495,7 @@
       
         <a href="/zeng.github.io/tags/Hybridclr/" class="print-no-link">#Hybridclr</a>
       
-        <a href="/zeng.github.io/tags/Addressables-Release-handle/" class="print-no-link">#Addressables.Release(handle)</a>
+        <a href="/zeng.github.io/tags/MySQL-Data-MySqlConnector/" class="print-no-link">#MySQL.Data > MySqlConnector</a>
       
     </div>
   
@@ -509,8 +507,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>场景被卸载导致显示异常解决办法</div>
-      <div>https://zeng-ss.github.io/zeng.github.io/2026/03/29/场景被卸载导致异常/</div>
+      <div>IL2CPP打包MySQL.Data得替换成MySqlConnector</div>
+      <div>https://zeng-ss.github.io/zeng.github.io/2026/03/29/IL2CPP打包不能有MySQL-Data/</div>
     </div>
     <div class="license-meta">
       
@@ -554,9 +552,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/zeng.github.io/2026/03/29/IL2CPP%E6%89%93%E5%8C%85%E4%B8%8D%E8%83%BD%E6%9C%89MySQL-Data/" title="IL2CPP打包MySQL.Data得替换成MySqlConnector">
+                      <a href="/zeng.github.io/2026/03/29/Unity%E5%A4%9A%E4%BA%BA%E8%81%94%E7%BD%91%E8%AF%AF%E5%8C%BA/" title="Unity多人联网误区">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">IL2CPP打包MySQL.Data得替换成MySqlConnector</span>
+                        <span class="hidden-mobile">Unity多人联网误区</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -564,8 +562,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/zeng.github.io/2026/03/29/Script-Missing%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" title="Script Missing的解决方案">
-                        <span class="hidden-mobile">Script Missing的解决方案</span>
+                      <a href="/zeng.github.io/2026/03/29/%E5%9C%BA%E6%99%AF%E8%A2%AB%E5%8D%B8%E8%BD%BD%E5%AF%BC%E8%87%B4%E5%BC%82%E5%B8%B8/" title="场景被卸载导致显示异常解决办法">
+                        <span class="hidden-mobile">场景被卸载导致显示异常解决办法</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -1,30 +1,41 @@
-const cards = document.querySelectorAll('.index-card')
-if (cards.length) {
-    document.querySelector('.row').setAttribute('style', 'overflow: hidden;')
-    const coefficient = document.documentElement.clientWidth > 768 ? .5 : .3
-    const origin = document.documentElement.clientHeight - cards[0].getBoundingClientRect().height * coefficient
+document.addEventListener('DOMContentLoaded', function () {
+    const cards = document.querySelectorAll('.index-card');
+    if (!cards.length) return;
 
-    function throttle(fn, wait) {
-        let timer = null;
+    const row = document.querySelector('.row');
+    if (row) row.style.overflow = 'hidden';
+
+    const coefficient = window.innerWidth > 768 ? 0.5 : 0.3;
+    let origin = window.innerHeight * (1 - coefficient);
+
+    // 正确节流
+    function throttle(func, limit) {
+        let inThrottle;
         return function () {
-            const context = this;
-            const args = arguments;
-            if (!timer) {
-                timer = setTimeout(function () {
-                    fn.apply(context, args);
-                    timer = null;
-                }, wait)
+            if (!inThrottle) {
+                func();
+                inThrottle = true;
+                setTimeout(() => (inThrottle = false), limit);
             }
-        }
+        };
     }
 
-    function handle() {
+    // 核心：强制设置 CSS 变量
+    function updateCards() {
         cards.forEach(card => {
-            card.setAttribute('style', `--state: ${(card.getBoundingClientRect().top - origin) < 0 ? 1 : 0};`)
-        })
-        console.log(1)
+            const top = card.getBoundingClientRect().top;
+            const show = top < origin ? 1 : 0;
+
+            // 最稳定的赋值方式，不会解析失败
+            card.style.setProperty('--state', show);
+        });
     }
 
-
-    document.addEventListener("scroll", throttle(handle, 100));
-}
+    // 立即执行 + 滚动执行
+    updateCards();
+    window.addEventListener('scroll', throttle(updateCards, 100));
+    window.addEventListener('resize', throttle(() => {
+        origin = window.innerHeight * (1 - coefficient);
+        updateCards();
+    }, 200));
+});

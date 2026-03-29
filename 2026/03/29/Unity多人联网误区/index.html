@@ -21,24 +21,24 @@
   <meta name="author" content="Zeng">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Addressable ：加载场景后立即释放句柄导致场景被卸载前言在使用 Unity Addressable 资源管理系统时，遇到这样一个奇怪的问题：场景明明已经加载完成，却显示为一片蓝色（或空白），场景中的物体虽然存在但渲染异常。搜索良久，最终发现问题竟然出在一句看似无害的代码——Addressables.Release(handle)。 现象描述使用 Addressables.LoadScen">
+    <meta name="description" content="前言在使用Netcode for GameObjects（NGO） + Addressable + HybridCLR 的热更新方案时，遇到一个棘手的问题：即使已经手动将预制体拖入NetworkManager的网络预制体列表，当NGO自动跳转场景时，控制台仍然报错  NetworkPrefab could not be found  导致网络对象无法正常生成 现象描述项目使用NGO作为网络同步框架">
 <meta property="og:type" content="article">
-<meta property="og:title" content="场景被卸载导致显示异常解决办法">
-<meta property="og:url" content="https://zeng-ss.github.io/zeng.github.io/2026/03/29/%E5%9C%BA%E6%99%AF%E8%A2%AB%E5%8D%B8%E8%BD%BD%E5%AF%BC%E8%87%B4%E5%BC%82%E5%B8%B8/index.html">
+<meta property="og:title" content="Unity多人联网误区">
+<meta property="og:url" content="https://zeng-ss.github.io/zeng.github.io/2026/03/29/Unity%E5%A4%9A%E4%BA%BA%E8%81%94%E7%BD%91%E8%AF%AF%E5%8C%BA/index.html">
 <meta property="og:site_name" content="两年半的曾">
-<meta property="og:description" content="Addressable ：加载场景后立即释放句柄导致场景被卸载前言在使用 Unity Addressable 资源管理系统时，遇到这样一个奇怪的问题：场景明明已经加载完成，却显示为一片蓝色（或空白），场景中的物体虽然存在但渲染异常。搜索良久，最终发现问题竟然出在一句看似无害的代码——Addressables.Release(handle)。 现象描述使用 Addressables.LoadScen">
+<meta property="og:description" content="前言在使用Netcode for GameObjects（NGO） + Addressable + HybridCLR 的热更新方案时，遇到一个棘手的问题：即使已经手动将预制体拖入NetworkManager的网络预制体列表，当NGO自动跳转场景时，控制台仍然报错  NetworkPrefab could not be found  导致网络对象无法正常生成 现象描述项目使用NGO作为网络同步框架">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-03-29T12:03:01.000Z">
-<meta property="article:modified_time" content="2026-03-29T12:17:51.483Z">
+<meta property="article:published_time" content="2026-03-29T13:32:26.000Z">
+<meta property="article:modified_time" content="2026-03-29T13:41:11.073Z">
 <meta property="article:author" content="Zeng">
 <meta property="article:tag" content="Addressable">
-<meta property="article:tag" content="Addressables.Release(handle)">
 <meta property="article:tag" content="Hybridclr">
+<meta property="article:tag" content="Netcode for GameObjects（NGO）">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>场景被卸载导致显示异常解决办法 - 两年半的曾</title>
+  <title>Unity多人联网误区 - 两年半的曾</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -354,7 +354,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="场景被卸载导致显示异常解决办法"></span>
+            <span id="subtitle" data-typed-text="Unity多人联网误区"></span>
           
         </div>
 
@@ -365,7 +365,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-03-29 20:03" pubdate>
+        <time datetime="2026-03-29 21:32" pubdate>
           2026年3月29日 晚上
         </time>
       </span>
@@ -377,7 +377,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k 字
+          2.3k 字
         
       </span>
     
@@ -388,7 +388,7 @@
         
         
         
-          13 分钟
+          20 分钟
         
       </span>
     
@@ -427,25 +427,30 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">场景被卸载导致显示异常解决办法</h1>
+            <h1 id="seo-header">Unity多人联网误区</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Addressable-：加载场景后立即释放句柄导致场景被卸载"><a href="#Addressable-：加载场景后立即释放句柄导致场景被卸载" class="headerlink" title="Addressable ：加载场景后立即释放句柄导致场景被卸载"></a>Addressable ：加载场景后立即释放句柄导致场景被卸载</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在使用 Unity Addressable 资源管理系统时，遇到这样一个奇怪的问题：场景明明已经加载完成，却显示为一片蓝色（或空白），场景中的物体虽然存在但渲染异常。搜索良久，最终发现问题竟然出在一句看似无害的代码——Addressables.Release(handle)。</p>
-<h2 id="现象描述"><a href="#现象描述" class="headerlink" title="现象描述"></a>现象描述</h2><p>使用 Addressables.LoadSceneAsync 加载场景<br>场景加载完成后，调用了 Addressables.Release(handle) 释放句柄<br>场景虽然存在（GameObject 节点可见），但显示为蓝色&#x2F;空白</p>
-<p>Unity社区也有老哥遇到了这个问题，也是受到他的启发</p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在使用Netcode for GameObjects（NGO） + Addressable + HybridCLR 的热更新方案时，遇到一个棘手的问题：即使已经手动将预制体拖入NetworkManager的网络预制体列表，当NGO自动跳转场景时，控制台仍然报错</p>
 <blockquote>
-<p>“问题已解决，最终发现是自己在场景加载完毕后加了一句 Addressables.Release(handle) 销毁了句柄。注释掉这句以后显示正常，场景切换时调用 Addressables.UnloadSceneAsync 也不报错了。”</p>
+<p>NetworkPrefab could not be found</p>
 </blockquote>
-<p>真可谓前人栽树后人乘凉啊，之前在做恐怖游戏项目对热更新的接入时候也遇到了这个问题，但是受限于当时脑容量不够加之项目太大打包一次十多分钟便没了耐心，不过得再次感谢老哥的解答🫡🫡🫡</p>
-<p>原理就不多说了，详情请见文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/gbdsbgghj/article/details/159599149?spm=1001.2014.3001.5502">文章跳转</a></p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>方案一：注释掉 Release 调用<br>如果代码中错误地调用了 Addressables.Release(handle)，直接注释掉即可。</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs C#"><span class="hljs-comment">// 错误写法</span><br>AsyncOperationHandle&lt;SceneInstance&gt; handle = Addressables.LoadSceneAsync(<span class="hljs-string">&quot;MyScene&quot;</span>);<br><span class="hljs-keyword">await</span> handle.Task;<br>Addressables.Release(handle);  <span class="hljs-comment">// 这行会卸载场景！</span><br> <br><span class="hljs-comment">// 正确写法</span><br>AsyncOperationHandle&lt;SceneInstance&gt; handle = Addressables.LoadSceneAsync(<span class="hljs-string">&quot;MyScene&quot;</span>);<br><span class="hljs-keyword">await</span> handle.Task;<br><span class="hljs-comment">// 不要释放句柄！让场景保持加载状态</span><br></code></pre></td></tr></table></figure>
-<p>方案二：保存句柄供后续卸载使用</p>
-<p>如果需要稍后卸载场景，应该保存句柄，并在卸载时传递给 UnloadSceneAsync：</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs C#"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">SceneLoader</span> : <span class="hljs-title">MonoBehaviour</span><br>&#123;<br>    <span class="hljs-keyword">private</span> AsyncOperationHandle&lt;SceneInstance&gt; _sceneHandle;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">void</span> <span class="hljs-title">LoadGameScene</span>()</span><br>    &#123;<br>        <span class="hljs-comment">// 加载场景并保存句柄</span><br>        _sceneHandle = Addressables.LoadSceneAsync(<span class="hljs-string">&quot;GameScene&quot;</span>, LoadSceneMode.Additive);<br>        <span class="hljs-keyword">await</span> _sceneHandle.Task;<br>        <br>        <span class="hljs-comment">// 注意：此处不要调用 Release！</span><br>        Debug.Log(<span class="hljs-string">&quot;场景加载完成&quot;</span>);<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">UnloadGameScene</span>()</span><br>    &#123;<br>        <span class="hljs-keyword">if</span> (_sceneHandle.IsValid())<br>        &#123;<br>            <span class="hljs-comment">// 正确的卸载方式：使用 UnloadSceneAsync</span><br>            Addressables.UnloadSceneAsync(_sceneHandle, UnloadSceneOptions.None);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>那还说啥了，两年半的爱坤，必须感谢素未相识的老哥！！！</p>
+<p>导致网络对象无法正常生成</p>
+<h2 id="现象描述"><a href="#现象描述" class="headerlink" title="现象描述"></a>现象描述</h2><p>项目使用<strong>NGO</strong>作为网络同步框架<br>使用<strong>Addressable</strong>管理资源，<strong>HybridCLR</strong>实现热更新<br>网络预制体已经手动拖入NetworkManager的NetworkPrefabs列表<br>使用NGO的自动场景管理功能切换 场景（NetworkManager.SceneManager.LoadScene）<br>报错信息：</p>
+<blockquote>
+<p>NetworkPrefab could not be found for hash XXXXXXXXXX</p>
+</blockquote>
+<p>为什么手动拖入了还会报错？<br>这个问题触及了NGO、Addressable和Unity场景加载机制之间的深层冲突。</p>
+<p>原理就不多分析了，详情见文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/gbdsbgghj/article/details/159534099?spm=1001.2014.3001.5502">文章跳转</a></p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>方案一：预加载网络预制体</p>
+<p>通俗的讲应该就是先加载好这样后面使用就很快，先走好加载的流程，NGO就不会出现找不到的情况</p>
+<blockquote>
+<p>同样也需要注意不能在启动器上面初始化太多 Manager，其实现在也还没完全搞懂，后面理解了再来更新吧</p>
+</blockquote>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs C#"><span class="hljs-keyword">using</span> UnityEngine;<br><span class="hljs-keyword">using</span> Unity.Netcode;<br><span class="hljs-keyword">using</span> UnityEngine.AddressableAssets;<br><span class="hljs-keyword">using</span> System.Collections.Generic;<br><span class="hljs-keyword">using</span> System.Threading.Tasks;<br> <br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">NetworkPrefabPreloader</span> : <span class="hljs-title">MonoBehaviour</span><br>&#123;<br>    [<span class="hljs-meta">SerializeField</span>] <span class="hljs-keyword">private</span> NetworkManager m_NetworkManager;<br>    [<span class="hljs-meta">SerializeField</span>] <span class="hljs-keyword">private</span> List&lt;AssetReferenceGameObject&gt; m_NetworkPrefabReferences;<br>    <br>    <span class="hljs-keyword">private</span> List&lt;GameObject&gt; m_LoadedPrefabs = <span class="hljs-keyword">new</span> List&lt;GameObject&gt;();<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">async</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Start</span>()</span><br>    &#123;<br>        <span class="hljs-comment">// 在启动任何网络功能之前预加载</span><br>        <span class="hljs-keyword">await</span> PreloadAllNetworkPrefabs();<br>        <br>        <span class="hljs-comment">// 预制体加载完成后，再启动网络</span><br>        StartNetworking();<br>    &#125;<br>    <br>    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;summary&gt;</span></span><br>    <span class="hljs-comment"><span class="hljs-doctag">///</span> 预加载所有Addressable网络预制体</span><br>    <span class="hljs-comment"><span class="hljs-doctag">///</span> <span class="hljs-doctag">&lt;/summary&gt;</span></span><br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">async</span> Task <span class="hljs-title">PreloadAllNetworkPrefabs</span>()</span><br>    &#123;<br>        Debug.Log(<span class="hljs-string">$&quot;开始预加载 <span class="hljs-subst">&#123;m_NetworkPrefabReferences.Count&#125;</span> 个Addressable网络预制体&quot;</span>);<br>        <br>        <span class="hljs-keyword">foreach</span> (<span class="hljs-keyword">var</span> prefabRef <span class="hljs-keyword">in</span> m_NetworkPrefabReferences)<br>        &#123;<br>            <span class="hljs-comment">// 使用LoadAssetAsync加载预制体到内存</span><br>            <span class="hljs-keyword">var</span> handle = Addressables.LoadAssetAsync&lt;GameObject&gt;(prefabRef);<br>            <span class="hljs-keyword">var</span> prefab = <span class="hljs-keyword">await</span> handle.Task;<br>            <br>            <span class="hljs-comment">// 存储加载的预制体引用</span><br>            m_LoadedPrefabs.Add(prefab);<br>            <br>            <span class="hljs-comment">// 注意：即使预制体已经手动拖入NetworkPrefabs列表，</span><br>            <span class="hljs-comment">// 这里仍然需要调用AddNetworkPrefab？实际上不需要，</span><br>            <span class="hljs-comment">// 因为AddNetworkPrefab的作用是注册，而不是加载。</span><br>            <span class="hljs-comment">// 手动拖入已经完成了注册，预加载解决的是加载问题。</span><br>            <br>            Debug.Log(<span class="hljs-string">$&quot;预加载完成: <span class="hljs-subst">&#123;prefab.name&#125;</span>&quot;</span>);<br>            <br>            <span class="hljs-comment">// 释放Addressable句柄，但预制体会保留在内存中</span><br>            Addressables.Release(handle);<br>        &#125;<br>        <br>        Debug.Log(<span class="hljs-string">&quot;所有Addressable网络预制体预加载完成&quot;</span>);<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">StartNetworking</span>()</span><br>    &#123;<br>        <span class="hljs-comment">// 根据运行模式启动</span><br>        <span class="hljs-keyword">if</span> (SystemInfo.graphicsDeviceType == UnityEngine.Rendering.GraphicsDeviceType.Null)<br>        &#123;<br>            <span class="hljs-comment">// 服务器模式（无头服务器）</span><br>            m_NetworkManager.StartServer();<br>        &#125;<br>        <span class="hljs-keyword">else</span><br>        &#123;<br>            <span class="hljs-comment">// 客户端/主机模式</span><br>            <span class="hljs-comment">// 实际项目中可能需要根据UI选择</span><br>            m_NetworkManager.StartHost();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这个方法其实就已经很棒了，其他的方法我个人认为只是复杂化了，就这样吧</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>“手动拖入网络预制体后，NGO自动跳转场景仍然报NetworkPrefab not found”的根本原因在于：手动拖入只完成了注册，而Addressable预制体需要在运行时实际加载到内存后才能被NGO使用。预加载解决了这个加载时机问题。</p>
 
                 
               </div>
@@ -497,7 +502,7 @@
       
         <a href="/zeng.github.io/tags/Hybridclr/" class="print-no-link">#Hybridclr</a>
       
-        <a href="/zeng.github.io/tags/Addressables-Release-handle/" class="print-no-link">#Addressables.Release(handle)</a>
+        <a href="/zeng.github.io/tags/Netcode-for-GameObjects%EF%BC%88NGO%EF%BC%89/" class="print-no-link">#Netcode for GameObjects（NGO）</a>
       
     </div>
   
@@ -509,8 +514,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>场景被卸载导致显示异常解决办法</div>
-      <div>https://zeng-ss.github.io/zeng.github.io/2026/03/29/场景被卸载导致异常/</div>
+      <div>Unity多人联网误区</div>
+      <div>https://zeng-ss.github.io/zeng.github.io/2026/03/29/Unity多人联网误区/</div>
     </div>
     <div class="license-meta">
       
@@ -554,18 +559,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/zeng.github.io/2026/03/29/IL2CPP%E6%89%93%E5%8C%85%E4%B8%8D%E8%83%BD%E6%9C%89MySQL-Data/" title="IL2CPP打包MySQL.Data得替换成MySqlConnector">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">IL2CPP打包MySQL.Data得替换成MySqlConnector</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/zeng.github.io/2026/03/29/Script-Missing%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" title="Script Missing的解决方案">
-                        <span class="hidden-mobile">Script Missing的解决方案</span>
+                      <a href="/zeng.github.io/2026/03/29/IL2CPP%E6%89%93%E5%8C%85%E4%B8%8D%E8%83%BD%E6%9C%89MySQL-Data/" title="IL2CPP打包MySQL.Data得替换成MySqlConnector">
+                        <span class="hidden-mobile">IL2CPP打包MySQL.Data得替换成MySqlConnector</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
