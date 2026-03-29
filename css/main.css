@@ -1010,27 +1010,27 @@ body.mobile-menu-open {
     --color-mode: "dark";
   }
   :root:not([data-user-color-scheme]) {
-    --body-bg-color: #1a1a1a;
-    --board-bg-color: #252d38;
-    --text-color: #3c4858;
-    --sec-text-color: #718096;
-    --post-text-color: #718096;
-    --post-heading-color: #c4c6c9;
-    --post-link-color: #1589e9;
-    --link-hover-color: #30a9de;
-    --link-hover-bg-color: #364151;
-    --line-color: #435266;
-    --navbar-bg-color: #2d2d2d;
-    --navbar-text-color: #e0e0e0;
-    --subtitle-color: #fff;
-    --scrollbar-color: #687582;
-    --scrollbar-hover-color: #9da8b3;
+    --body-bg-color: #0d1117;
+    --board-bg-color: #0d1117;
+    --text-color: #e6edf4;
+    --sec-text-color: #8b949e;
+    --post-text-color: #e6edf4;
+    --post-heading-color: #f0f6fc;
+    --post-link-color: #58a6ff;
+    --link-hover-color: #79c0ff;
+    --link-hover-bg-color: #21262d;
+    --line-color: #30363d;
+    --navbar-bg-color: #161b22;
+    --navbar-text-color: #f0f6fc;
+    --subtitle-color: #e6edf4;
+    --scrollbar-color: #30363d;
+    --scrollbar-hover-color: #484f58;
     --button-bg-color: transparent;
-    --button-hover-bg-color: #46647e;
+    --button-hover-bg-color: #21262d;
     --highlight-bg-color: #303030;
     --inlinecode-bg-color: rgba(99,110,123,0.4);
-    --fold-title-color: #3c4858;
-    --fold-border-color: #435266;
+    --fold-title-color: #e6edf4;
+    --fold-border-color: #30363d;
   }
   :root:not([data-user-color-scheme]) img {
     -webkit-filter: brightness(0.9);
@@ -1041,7 +1041,7 @@ body.mobile-menu-open {
     :root:not([data-user-color-scheme]) .navbar .dropdown-collapse,
     :root:not([data-user-color-scheme]) .top-nav-collapse,
     :root:not([data-user-color-scheme]) .navbar-col-show {
-      background: rgba(45,45,45,0.7);
+      background: rgba(22,27,34,0.7);
       -webkit-backdrop-filter: blur(3px);
       backdrop-filter: blur(3px);
     }
@@ -1050,7 +1050,7 @@ body.mobile-menu-open {
     :root:not([data-user-color-scheme]) .navbar .dropdown-collapse,
     :root:not([data-user-color-scheme]) .top-nav-collapse,
     :root:not([data-user-color-scheme]) .navbar-col-show {
-      background: #2d2d2d;
+      background: #161b22;
     }
   }
   :root:not([data-user-color-scheme]) .license-box {
@@ -1064,27 +1064,27 @@ body.mobile-menu-open {
 }
 @media not print {
   [data-user-color-scheme="dark"] {
-    --body-bg-color: #1a1a1a;
-    --board-bg-color: #252d38;
-    --text-color: #3c4858;
-    --sec-text-color: #718096;
-    --post-text-color: #718096;
-    --post-heading-color: #c4c6c9;
-    --post-link-color: #1589e9;
-    --link-hover-color: #30a9de;
-    --link-hover-bg-color: #364151;
-    --line-color: #435266;
-    --navbar-bg-color: #2d2d2d;
-    --navbar-text-color: #e0e0e0;
-    --subtitle-color: #fff;
-    --scrollbar-color: #687582;
-    --scrollbar-hover-color: #9da8b3;
+    --body-bg-color: #0d1117;
+    --board-bg-color: #0d1117;
+    --text-color: #e6edf4;
+    --sec-text-color: #8b949e;
+    --post-text-color: #e6edf4;
+    --post-heading-color: #f0f6fc;
+    --post-link-color: #58a6ff;
+    --link-hover-color: #79c0ff;
+    --link-hover-bg-color: #21262d;
+    --line-color: #30363d;
+    --navbar-bg-color: #161b22;
+    --navbar-text-color: #f0f6fc;
+    --subtitle-color: #e6edf4;
+    --scrollbar-color: #30363d;
+    --scrollbar-hover-color: #484f58;
     --button-bg-color: transparent;
-    --button-hover-bg-color: #46647e;
+    --button-hover-bg-color: #21262d;
     --highlight-bg-color: #303030;
     --inlinecode-bg-color: rgba(99,110,123,0.4);
-    --fold-title-color: #3c4858;
-    --fold-border-color: #435266;
+    --fold-title-color: #e6edf4;
+    --fold-border-color: #30363d;
   }
   [data-user-color-scheme="dark"] img {
     -webkit-filter: brightness(0.9);
@@ -1095,7 +1095,7 @@ body.mobile-menu-open {
     [data-user-color-scheme="dark"] .navbar .dropdown-collapse,
     [data-user-color-scheme="dark"] .top-nav-collapse,
     [data-user-color-scheme="dark"] .navbar-col-show {
-      background: rgba(45,45,45,0.7);
+      background: rgba(22,27,34,0.7);
       -webkit-backdrop-filter: blur(3px);
       backdrop-filter: blur(3px);
     }
@@ -1104,7 +1104,7 @@ body.mobile-menu-open {
     [data-user-color-scheme="dark"] .navbar .dropdown-collapse,
     [data-user-color-scheme="dark"] .top-nav-collapse,
     [data-user-color-scheme="dark"] .navbar-col-show {
-      background: #2d2d2d;
+      background: #161b22;
     }
   }
   [data-user-color-scheme="dark"] .license-box {
