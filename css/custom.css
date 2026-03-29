@@ -1,0 +1,47 @@
+/* 1. 缩小文章宽度，让两侧背景更宽 */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 900px !important;
+  }
+}
+
+/* 2. 文章卡片圆角+阴影，悬浮感 */
+#board {
+  border-radius: 20px !important;
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+/* 3. 暗色模式卡片边框 */
+.dark-mode #board {
+  border: 1px solid #30363d;
+}
+
+/* 4. 两侧背景添加微妙的光晕 */
+body.dark-mode {
+  position: relative;
+}
+
+body.dark-mode::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 15%;
+  height: 100%;
+  background: radial-gradient(ellipse at left, rgba(88, 166, 255, 0.06), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.dark-mode::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 15%;
+  height: 100%;
+  background: radial-gradient(ellipse at right, rgba(88, 166, 255, 0.06), transparent);
+  pointer-events: none;
+  z-index: 0;
+}

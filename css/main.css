@@ -1011,7 +1011,7 @@ body.mobile-menu-open {
   }
   :root:not([data-user-color-scheme]) {
     --body-bg-color: #0d1117;
-    --board-bg-color: #0d1117;
+    --board-bg-color: #21262d;
     --text-color: #e6edf4;
     --sec-text-color: #8b949e;
     --post-text-color: #e6edf4;
@@ -1065,7 +1065,7 @@ body.mobile-menu-open {
 @media not print {
   [data-user-color-scheme="dark"] {
     --body-bg-color: #0d1117;
-    --board-bg-color: #0d1117;
+    --board-bg-color: #21262d;
     --text-color: #e6edf4;
     --sec-text-color: #8b949e;
     --post-text-color: #e6edf4;
