@@ -1,50 +1,60 @@
+/* 测试用 - 确认 CSS 生效（测试通过后可删除这行） */
 body {
-  background-color: red !important;
+  background-color: purple !important;
 }
+
 /* 1. 缩小文章宽度，让两侧背景更宽 */
 @media (min-width: 1200px) {
-  .container {
-    max-width: 900px !important;
+  .container .row .col-lg-8 {
+    max-width: 70% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 }
 
 /* 2. 文章卡片圆角+阴影，悬浮感 */
 #board {
   border-radius: 20px !important;
-  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.4) !important;
   transition: all 0.3s ease;
 }
 
 /* 3. 暗色模式卡片边框 */
-.dark-mode #board {
-  border: 1px solid #30363d;
+html[data-theme='dark'] #board {
+  border: 1px solid #30363d !important;
 }
 
 /* 4. 两侧背景添加微妙的光晕 */
-body.dark-mode {
+html[data-theme='dark'] {
   position: relative;
 }
 
-body.dark-mode::before {
+html[data-theme='dark']::before {
   content: '';
   position: fixed;
   top: 0;
   left: 0;
   width: 15%;
   height: 100%;
-  background: radial-gradient(ellipse at left, rgba(88, 166, 255, 0.06), transparent);
+  background: radial-gradient(ellipse at left, rgba(88, 166, 255, 0.1), transparent);
   pointer-events: none;
   z-index: 0;
 }
 
-body.dark-mode::after {
+html[data-theme='dark']::after {
   content: '';
   position: fixed;
   top: 0;
   right: 0;
   width: 15%;
   height: 100%;
-  background: radial-gradient(ellipse at right, rgba(88, 166, 255, 0.06), transparent);
+  background: radial-gradient(ellipse at right, rgba(88, 166, 255, 0.1), transparent);
   pointer-events: none;
   z-index: 0;
+}
+
+/* 5. 确保文章内容在光晕上层 */
+#board {
+  position: relative;
+  z-index: 1;
 }
