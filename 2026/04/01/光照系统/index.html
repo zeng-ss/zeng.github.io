@@ -21,28 +21,26 @@
   <meta name="author" content="Zeng">
   <meta name="keywords" content="">
   
-    <meta name="description" content="IL2CPP ：MySQL.Data 打包报错——替换为 MySqlConnector前言在 Unity 项目中使用 MySQL 数据库时，我选择了官方提供的 MySQL.Data.dll 作为数据库驱动。然而，当项目从 Mono 切换到 IL2CPP 打包时，常常会遇到两个致命错误：  ExecutionEngineException: reloading placeholder assembl">
+    <meta name="description" content="在 Unity 中，光照是决定场景氛围、真实感和性能的关键因素。本文将深入探讨 Unity 的光照系统，包括光照类型、阴影设置、全局光照以及性能优化策略。 光照类型Unity 提供了四种主要的光照类型，每种都有其特定的用途和性能开销。 方向光方向光模拟的是太阳或月亮等距离极远的光源。  特点：光线平行照射，位置无限远，无衰减 用途：作为场景的主光源，提供基础照明 设置：通常每个场景只有一个方向光，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IL2CPP打包MySQL.Data得替换成MySqlConnector">
-<meta property="og:url" content="https://zeng-ss.github.io/zeng.github.io/2026/03/29/IL2CPP%E6%89%93%E5%8C%85%E4%B8%8D%E8%83%BD%E6%9C%89MySQL-Data/index.html">
+<meta property="og:title" content="Unity光照系统完全指南">
+<meta property="og:url" content="https://zeng-ss.github.io/zeng.github.io/2026/04/01/%E5%85%89%E7%85%A7%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="两年半的曾">
-<meta property="og:description" content="IL2CPP ：MySQL.Data 打包报错——替换为 MySqlConnector前言在 Unity 项目中使用 MySQL 数据库时，我选择了官方提供的 MySQL.Data.dll 作为数据库驱动。然而，当项目从 Mono 切换到 IL2CPP 打包时，常常会遇到两个致命错误：  ExecutionEngineException: reloading placeholder assembl">
+<meta property="og:description" content="在 Unity 中，光照是决定场景氛围、真实感和性能的关键因素。本文将深入探讨 Unity 的光照系统，包括光照类型、阴影设置、全局光照以及性能优化策略。 光照类型Unity 提供了四种主要的光照类型，每种都有其特定的用途和性能开销。 方向光方向光模拟的是太阳或月亮等距离极远的光源。  特点：光线平行照射，位置无限远，无衰减 用途：作为场景的主光源，提供基础照明 设置：通常每个场景只有一个方向光，">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://zeng-ss.github.io/zeng.github.io/img/bg/%E9%A1%B5%E9%9D%A2%E8%83%8C%E6%99%AF.png">
-<meta property="article:published_time" content="2026-03-29T13:18:26.000Z">
-<meta property="article:modified_time" content="2026-03-31T09:23:06.994Z">
+<meta property="og:image" content="https://zeng-ss.github.io/zeng.github.io/img/%E4%BB%A3%E7%A0%811.png">
+<meta property="article:published_time" content="2026-04-01T13:22:03.000Z">
+<meta property="article:modified_time" content="2026-04-01T13:47:36.764Z">
 <meta property="article:author" content="Zeng">
-<meta property="article:tag" content="Addressable">
-<meta property="article:tag" content="HybriCLR">
-<meta property="article:tag" content="MySQL.Data &gt; MySqlConnector">
+<meta property="article:tag" content="Unity常见的 Api">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://zeng-ss.github.io/zeng.github.io/img/bg/%E9%A1%B5%E9%9D%A2%E8%83%8C%E6%99%AF.png">
+<meta name="twitter:image" content="https://zeng-ss.github.io/zeng.github.io/img/%E4%BB%A3%E7%A0%811.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>IL2CPP打包MySQL.Data得替换成MySqlConnector - 两年半的曾</title>
+  <title>Unity光照系统完全指南 - 两年半的曾</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -358,7 +356,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="IL2CPP打包MySQL.Data得替换成MySqlConnector"></span>
+            <span id="subtitle" data-typed-text="Unity光照系统完全指南"></span>
           
         </div>
 
@@ -374,8 +372,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-03-29 21:18" pubdate>
-          2026年3月29日 晚上
+        <time datetime="2026-04-01 21:22" pubdate>
+          2026年4月1日 晚上
         </time>
       </span>
     
@@ -386,7 +384,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          757 字
+          1.6k 字
         
       </span>
     
@@ -397,7 +395,7 @@
         
         
         
-          7 分钟
+          14 分钟
         
       </span>
     
@@ -528,7 +526,7 @@
       
         <a href="/zeng.github.io/2026/03/29/IL2CPP%E6%89%93%E5%8C%85%E4%B8%8D%E8%83%BD%E6%9C%89MySQL-Data/" title="IL2CPP打包MySQL.Data得替换成MySqlConnector"
            class="list-group-item list-group-item-action
-           active">
+           ">
           <span class="category-post">IL2CPP打包MySQL.Data得替换成MySqlConnector</span>
         </a>
       
@@ -546,7 +544,7 @@
       
         <a href="/zeng.github.io/2026/04/01/%E5%85%89%E7%85%A7%E7%B3%BB%E7%BB%9F/" title="Unity光照系统完全指南"
            class="list-group-item list-group-item-action
-           ">
+           active">
           <span class="category-post">Unity光照系统完全指南</span>
         </a>
       
@@ -641,12 +639,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">IL2CPP打包MySQL.Data得替换成MySqlConnector</h1>
+            <h1 id="seo-header">Unity光照系统完全指南</h1>
             
               <p id="updated-time" class="note note-info" style="display: none">
                 
                   
-                    本文最后更新于 2026-03-31T17:23:06+08:00
+                    本文最后更新于 2026-04-01T21:47:36+08:00
                   
                   
 
@@ -656,18 +654,142 @@
             
               <div class="markdown-body">
                 
-                <h1 id="IL2CPP-：MySQL-Data-打包报错——替换为-MySqlConnector"><a href="#IL2CPP-：MySQL-Data-打包报错——替换为-MySqlConnector" class="headerlink" title="IL2CPP ：MySQL.Data 打包报错——替换为 MySqlConnector"></a>IL2CPP ：MySQL.Data 打包报错——替换为 MySqlConnector</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 Unity 项目中使用 MySQL 数据库时，我选择了官方提供的 MySQL.Data.dll 作为数据库驱动。然而，当项目从 Mono 切换到 IL2CPP 打包时，常常会遇到两个致命错误：</p>
-<blockquote>
-<p>ExecutionEngineException: reloading placeholder assembly is not supported!<br>NotSupportedException: System.Configuration.ConfigurationManager::GetSection</p>
-</blockquote>
-<p>最佳解决方案：使用 MySqlConnector 替换官方 MySQL.Data。MySqlConnector 是 MySQL 官方推荐的轻量级替代品，不依赖 System.Configuration，对 IL2CPP 有完整的兼容性支持。</p>
-<p>解决详情请看文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/gbdsbgghj/article/details/159572534?spm=1001.2014.3001.5502">文章跳转</a></p>
-<p>最后确保是如图就行：</p>
-<img src="/zeng.github.io/2026/03/29/IL2CPP%E6%89%93%E5%8C%85%E4%B8%8D%E8%83%BD%E6%9C%89MySQL-Data/Mysql.png" srcset="/zeng.github.io/img/loading.gif" lazyload class="" title="图片引用方法一">
-
-<p>同时，将代码中的命名空间从 <strong>MySql.Data.MySqlClient</strong> 改为 <strong>MySqlConnector</strong>：</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C#"><span class="hljs-comment">// 原 MySQL.Data 写法</span><br><span class="hljs-comment">// using MySql.Data.MySqlClient;</span><br> <br><span class="hljs-comment">// 替换为 MySqlConnector</span><br><span class="hljs-keyword">using</span> MySqlConnector;<br></code></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>替换为 <strong>MySqlConnector</strong> 是解决 <strong>Unity IL2CPP</strong> 环境下 MySQL 连接问题的标准方案。关键在于：<br>移除 原有的 <strong>MySQL.Data.dll</strong><br>下载 <strong>MySqlConnector.dll</strong> 及其全部依赖项<br>放置 所有 DLL 到 <strong>Assets&#x2F;Plugins</strong><br>修改 代码命名空间为 <strong>MySqlConnector</strong><br>按照上述步骤操作，即可在 iOS、Android、WebGL 等强制要求 IL2CPP 的平台上正常使用 MySQL 数据库。</p>
+                <p>在 Unity 中，光照是决定场景氛围、真实感和性能的关键因素。本文将深入探讨 Unity 的光照系统，包括光照类型、阴影设置、全局光照以及性能优化策略。</p>
+<h2 id="光照类型"><a href="#光照类型" class="headerlink" title="光照类型"></a>光照类型</h2><p>Unity 提供了四种主要的光照类型，每种都有其特定的用途和性能开销。</p>
+<h3 id="方向光"><a href="#方向光" class="headerlink" title="方向光"></a>方向光</h3><p>方向光模拟的是太阳或月亮等距离极远的光源。</p>
+<ul>
+<li><strong>特点</strong>：光线平行照射，位置无限远，无衰减</li>
+<li><strong>用途</strong>：作为场景的主光源，提供基础照明</li>
+<li><strong>设置</strong>：通常每个场景只有一个方向光，通过 <code>GameObject → Light → Directional Light</code> 创建</li>
+</ul>
+<h3 id="点光源"><a href="#点光源" class="headerlink" title="点光源"></a>点光源</h3><p>点光源从一个点向所有方向均匀发射光线，类似灯泡。</p>
+<ul>
+<li><strong>特点</strong>：全方位照明，有明显的衰减效果</li>
+<li><strong>用途</strong>：模拟灯泡、火炬或局部补光</li>
+<li><strong>衰减</strong>：Unity 使用二次方衰减公式来模拟真实物理光照</li>
+</ul>
+<h3 id="聚光源"><a href="#聚光源" class="headerlink" title="聚光源"></a>聚光源</h3><p>聚光源从一个点发射出圆锥形的光线。</p>
+<ul>
+<li><strong>特点</strong>：有方向性，有角度限制，衰减明显</li>
+<li><strong>用途</strong>：模拟手电筒、舞台聚光灯或车头灯</li>
+<li><strong>参数</strong>：通过 <code>Spot Angle</code> 控制圆锥的张开角度</li>
+</ul>
+<h3 id="面光源"><a href="#面光源" class="headerlink" title="面光源"></a>面光源</h3><p>面光源是一个矩形或圆形的发光面。</p>
+<ul>
+<li><strong>特点</strong>：光线均匀分布，光照柔和</li>
+<li><strong>限制</strong>：<strong>仅在烘焙或使用渐进光照贴图时有效</strong>，实时渲染中不可用</li>
+<li><strong>用途</strong>：模拟天花板的灯带、电视屏幕发光</li>
+</ul>
+<h2 id="光照模式"><a href="#光照模式" class="headerlink" title="光照模式"></a>光照模式</h2><p>Unity 中的每个光源都可以设置为以下三种模式之一：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>说明</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Realtime</strong></td>
+<td>完全实时计算，光源和阴影可动态变化</td>
+<td>移动物体、日夜循环</td>
+</tr>
+<tr>
+<td><strong>Baked</strong></td>
+<td>完全预烘焙，运行时零开销</td>
+<td>静态场景、移动端性能优化</td>
+</tr>
+<tr>
+<td><strong>Mixed</strong></td>
+<td>混合模式，部分实时，部分烘焙</td>
+<td>需要动态阴影的静态物体</td>
+</tr>
+</tbody></table>
+<h2 id="阴影设置"><a href="#阴影设置" class="headerlink" title="阴影设置"></a>阴影设置</h2><p>阴影是增强场景立体感的重要元素。</p>
+<h3 id="阴影类型"><a href="#阴影类型" class="headerlink" title="阴影类型"></a>阴影类型</h3><ul>
+<li><strong>Hard Shadows</strong>：边缘清晰的阴影，性能开销较小</li>
+<li><strong>Soft Shadows</strong>：边缘柔和的阴影，更真实，开销较大</li>
+</ul>
+<h3 id="阴影质量优化"><a href="#阴影质量优化" class="headerlink" title="阴影质量优化"></a>阴影质量优化</h3><p>在 Quality Settings 中可以调整以下参数：</p>
+<ul>
+<li>Shadow Resolution：阴影贴图分辨率</li>
+<li>Shadow Distance：阴影显示距离</li>
+<li>Shadow Cascade：阴影级联，用于改善远近距离的阴影质量</li>
+</ul>
+<h3 id="阴影级联"><a href="#阴影级联" class="headerlink" title="阴影级联"></a>阴影级联</h3><p>阴影级联通过将摄像机的视锥体分割成多个区域，为近处物体提供更高精度的阴影贴图。<br>建议配置：</p>
+<ul>
+<li>2 级联：适合大多数移动端</li>
+<li>4 级联：适合 PC 和主机平台的高质量阴影</li>
+</ul>
+<h2 id="全局光照"><a href="#全局光照" class="headerlink" title="全局光照"></a>全局光照</h2><p>全局光照（Global Illumination, GI）模拟光线的间接反弹，实现光漫射和颜色溢出现象。</p>
+<h3 id="实时-GI"><a href="#实时-GI" class="headerlink" title="实时 GI"></a>实时 GI</h3><ul>
+<li>使用 <strong>Enlighten</strong> 系统（Unity 2019 之前）或 <strong>自适应探针体积</strong></li>
+<li>支持动态物体的间接光照</li>
+<li>对性能有一定消耗</li>
+</ul>
+<h3 id="烘焙-GI"><a href="#烘焙-GI" class="headerlink" title="烘焙 GI"></a>烘焙 GI</h3><ul>
+<li>将光照信息预先计算并存储到光照贴图中</li>
+<li>运行时零性能开销</li>
+<li>适合静态场景</li>
+</ul>
+<p><strong>烘焙流程：</strong></p>
+<ol>
+<li>将物体标记为 <code>Static</code> → <code>Contribute GI</code></li>
+<li>在 Lighting 窗口中配置光照贴图参数</li>
+<li>点击 <code>Generate Lighting</code> 开始烘焙</li>
+</ol>
+<h3 id="光照探针"><a href="#光照探针" class="headerlink" title="光照探针"></a>光照探针</h3><p>光照探针用于为动态物体提供间接光照信息。</p>
+<ul>
+<li>在场景中放置探针组</li>
+<li>动态物体会自动采样附近探针的光照信息</li>
+<li>建议在光照变化明显的区域密集放置</li>
+</ul>
+<h2 id="反射探针"><a href="#反射探针" class="headerlink" title="反射探针"></a>反射探针</h2><p>反射探针用于捕捉周围环境，为金属或光滑材质提供准确的反射效果。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Baked</strong></td>
+<td>预先烘焙的反射贴图，性能最优</td>
+</tr>
+<tr>
+<td><strong>Realtime</strong></td>
+<td>实时更新反射内容，开销较大</td>
+</tr>
+<tr>
+<td><strong>Custom</strong></td>
+<td>使用自定义的 Cubemap</td>
+</tr>
+</tbody></table>
+<h2 id="性能优化建议"><a href="#性能优化建议" class="headerlink" title="性能优化建议"></a>性能优化建议</h2><h3 id="1-减少实时光源数量"><a href="#1-减少实时光源数量" class="headerlink" title="1. 减少实时光源数量"></a>1. 减少实时光源数量</h3><ul>
+<li>限制每像素实时光源的数量（建议场景主光源使用方向光）</li>
+<li>次要光源使用烘焙模式</li>
+</ul>
+<h3 id="2-优化阴影"><a href="#2-优化阴影" class="headerlink" title="2. 优化阴影"></a>2. 优化阴影</h3><ul>
+<li>远处物体可以不投射阴影</li>
+<li>使用 <code>Shadow Distance</code> 限制阴影渲染距离</li>
+<li>移动端尽量使用硬阴影或无阴影</li>
+</ul>
+<h3 id="3-合理使用-LOD"><a href="#3-合理使用-LOD" class="headerlink" title="3. 合理使用 LOD"></a>3. 合理使用 LOD</h3><ul>
+<li>结合 LOD 组件，远距离物体使用低精度阴影或关闭阴影</li>
+</ul>
+<h3 id="4-光照贴图优化"><a href="#4-光照贴图优化" class="headerlink" title="4. 光照贴图优化"></a>4. 光照贴图优化</h3><ul>
+<li>控制光照贴图分辨率（移动端建议 512 或 1024）</li>
+<li>合并静态物体的光照贴图图集</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Unity 的光照系统灵活而强大，合理的选择和配置可以在视觉效果和性能之间取得平衡。实践中建议：</p>
+<ol>
+<li>优先考虑烘焙静态场景的光照</li>
+<li>动态物体配合光照探针获取间接光</li>
+<li>控制实时阴影的范围和质量</li>
+<li>根据目标平台调整光照设置</li>
+</ol>
+<hr>
+<p><em>本文基于 Unity 2022 LTS 版本编写，不同版本的部分功能可能有所差异。</em></p>
 
                 
               </div>
@@ -715,11 +837,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/zeng.github.io/tags/Addressable/" class="print-no-link">#Addressable</a>
-      
-        <a href="/zeng.github.io/tags/HybriCLR/" class="print-no-link">#HybriCLR</a>
-      
-        <a href="/zeng.github.io/tags/MySQL-Data-MySqlConnector/" class="print-no-link">#MySQL.Data > MySqlConnector</a>
+        <a href="/zeng.github.io/tags/Unity%E5%B8%B8%E8%A7%81%E7%9A%84-Api/" class="print-no-link">#Unity常见的 Api</a>
       
     </div>
   
@@ -731,8 +849,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>IL2CPP打包MySQL.Data得替换成MySqlConnector</div>
-      <div>https://zeng-ss.github.io/zeng.github.io/2026/03/29/IL2CPP打包不能有MySQL-Data/</div>
+      <div>Unity光照系统完全指南</div>
+      <div>https://zeng-ss.github.io/zeng.github.io/2026/04/01/光照系统/</div>
     </div>
     <div class="license-meta">
       
@@ -744,13 +862,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年3月29日</div>
+          <div>2026年4月1日</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2026年3月31日</div>
+          <div>2026年4月1日</div>
         </div>
       
       
@@ -781,18 +899,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/zeng.github.io/2026/03/29/Unity%E5%A4%9A%E4%BA%BA%E8%81%94%E7%BD%91%E8%AF%AF%E5%8C%BA/" title="Unity多人联网误区">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Unity多人联网误区</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/zeng.github.io/2026/03/29/%E5%9C%BA%E6%99%AF%E8%A2%AB%E5%8D%B8%E8%BD%BD%E5%AF%BC%E8%87%B4%E5%BC%82%E5%B8%B8/" title="场景被卸载导致显示异常解决办法">
-                        <span class="hidden-mobile">场景被卸载导致显示异常解决办法</span>
+                      <a href="/zeng.github.io/2026/03/30/gitHub-%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" title="Git 与 Unity 协同开发：从入门到精通">
+                        <span class="hidden-mobile">Git 与 Unity 协同开发：从入门到精通</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
