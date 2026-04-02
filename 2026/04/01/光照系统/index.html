@@ -21,18 +21,18 @@
   <meta name="author" content="Zeng">
   <meta name="keywords" content="">
   
-    <meta name="description" content="在 Unity 中，光照是决定场景氛围、真实感和性能的关键因素。本文将深入探讨 Unity 的光照系统，包括光照类型、阴影设置、全局光照以及性能优化策略。 光照类型Unity 提供了四种主要的光照类型，每种都有其特定的用途和性能开销。 方向光方向光模拟的是太阳或月亮等距离极远的光源。  特点：光线平行照射，位置无限远，无衰减 用途：作为场景的主光源，提供基础照明 设置：通常每个场景只有一个方向光，">
+    <meta name="description" content="《 Unity 之光照系统完全解析 》光照是Unity场景渲染的核心要素之一，直接决定场景的视觉效果、氛围营造和真实感，合理运用光照能让简单的模型呈现出丰富的层次和质感。本文将从光照基础、光照类型、光照参数、烘焙技巧及常见问题排查等方面，全面解析Unity光照系统，适用于Unity新手及进阶开发者。 一、Unity光照基础概念在Unity中，光照的核心作用是模拟现实中的光线传播规律，通过光线与物体">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Unity光照系统完全指南">
 <meta property="og:url" content="https://zeng-ss.github.io/zeng.github.io/2026/04/01/%E5%85%89%E7%85%A7%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="两年半的曾">
-<meta property="og:description" content="在 Unity 中，光照是决定场景氛围、真实感和性能的关键因素。本文将深入探讨 Unity 的光照系统，包括光照类型、阴影设置、全局光照以及性能优化策略。 光照类型Unity 提供了四种主要的光照类型，每种都有其特定的用途和性能开销。 方向光方向光模拟的是太阳或月亮等距离极远的光源。  特点：光线平行照射，位置无限远，无衰减 用途：作为场景的主光源，提供基础照明 设置：通常每个场景只有一个方向光，">
+<meta property="og:description" content="《 Unity 之光照系统完全解析 》光照是Unity场景渲染的核心要素之一，直接决定场景的视觉效果、氛围营造和真实感，合理运用光照能让简单的模型呈现出丰富的层次和质感。本文将从光照基础、光照类型、光照参数、烘焙技巧及常见问题排查等方面，全面解析Unity光照系统，适用于Unity新手及进阶开发者。 一、Unity光照基础概念在Unity中，光照的核心作用是模拟现实中的光线传播规律，通过光线与物体">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://zeng-ss.github.io/zeng.github.io/img/%E4%BB%A3%E7%A0%811.png">
 <meta property="article:published_time" content="2026-04-01T13:22:03.000Z">
-<meta property="article:modified_time" content="2026-04-01T13:47:36.764Z">
+<meta property="article:modified_time" content="2026-04-02T00:47:03.537Z">
 <meta property="article:author" content="Zeng">
-<meta property="article:tag" content="Unity常见的 Api">
+<meta property="article:tag" content="光照系统">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://zeng-ss.github.io/zeng.github.io/img/%E4%BB%A3%E7%A0%811.png">
   
@@ -384,7 +384,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.6k 字
+          5.5k 字
         
       </span>
     
@@ -395,7 +395,7 @@
         
         
         
-          14 分钟
+          46 分钟
         
       </span>
     
@@ -644,7 +644,7 @@
               <p id="updated-time" class="note note-info" style="display: none">
                 
                   
-                    本文最后更新于 2026-04-01T21:47:36+08:00
+                    本文最后更新于 2026-04-02T08:47:03+08:00
                   
                   
 
@@ -654,140 +654,168 @@
             
               <div class="markdown-body">
                 
-                <p>在 Unity 中，光照是决定场景氛围、真实感和性能的关键因素。本文将深入探讨 Unity 的光照系统，包括光照类型、阴影设置、全局光照以及性能优化策略。</p>
-<h2 id="光照类型"><a href="#光照类型" class="headerlink" title="光照类型"></a>光照类型</h2><p>Unity 提供了四种主要的光照类型，每种都有其特定的用途和性能开销。</p>
-<h3 id="方向光"><a href="#方向光" class="headerlink" title="方向光"></a>方向光</h3><p>方向光模拟的是太阳或月亮等距离极远的光源。</p>
+                <h1 id="《-Unity-之光照系统完全解析-》"><a href="#《-Unity-之光照系统完全解析-》" class="headerlink" title="《 Unity 之光照系统完全解析 》"></a>《 Unity 之光照系统完全解析 》</h1><p>光照是Unity场景渲染的核心要素之一，直接决定场景的视觉效果、氛围营造和真实感，合理运用光照能让简单的模型呈现出丰富的层次和质感。本文将从光照基础、光照类型、光照参数、烘焙技巧及常见问题排查等方面，全面解析Unity光照系统，适用于Unity新手及进阶开发者。</p>
+<h2 id="一、Unity光照基础概念"><a href="#一、Unity光照基础概念" class="headerlink" title="一、Unity光照基础概念"></a>一、Unity光照基础概念</h2><p>在Unity中，光照的核心作用是模拟现实中的光线传播规律，通过光线与物体表面的交互（反射、折射、吸收），呈现出物体的明暗、色彩和细节。Unity的光照系统主要分为「实时光照」「烘焙光照」「混合光照」三种模式，不同模式适用于不同的项目场景（如移动端&#x2F;PC端、2D&#x2F;3D、性能要求等）。</p>
+<h3 id="1-1-光照核心原理"><a href="#1-1-光照核心原理" class="headerlink" title="1.1 光照核心原理"></a>1.1 光照核心原理</h3><p>Unity光照本质是通过「光照计算 shader」实现光线与物体的交互，核心包含三个关键组件：</p>
 <ul>
-<li><strong>特点</strong>：光线平行照射，位置无限远，无衰减</li>
-<li><strong>用途</strong>：作为场景的主光源，提供基础照明</li>
-<li><strong>设置</strong>：通常每个场景只有一个方向光，通过 <code>GameObject → Light → Directional Light</code> 创建</li>
+<li>光源（Light）：产生光线的对象，决定光线的方向、颜色、强度等。</li>
+<li>渲染器（Renderer）：物体表面的渲染组件，接收光线并进行着色计算。</li>
+<li>光照贴图（Lightmap）：烘焙光照时生成的纹理，存储场景中静态物体的光照信息，用于提升性能。</li>
 </ul>
-<h3 id="点光源"><a href="#点光源" class="headerlink" title="点光源"></a>点光源</h3><p>点光源从一个点向所有方向均匀发射光线，类似灯泡。</p>
-<ul>
-<li><strong>特点</strong>：全方位照明，有明显的衰减效果</li>
-<li><strong>用途</strong>：模拟灯泡、火炬或局部补光</li>
-<li><strong>衰减</strong>：Unity 使用二次方衰减公式来模拟真实物理光照</li>
-</ul>
-<h3 id="聚光源"><a href="#聚光源" class="headerlink" title="聚光源"></a>聚光源</h3><p>聚光源从一个点发射出圆锥形的光线。</p>
-<ul>
-<li><strong>特点</strong>：有方向性，有角度限制，衰减明显</li>
-<li><strong>用途</strong>：模拟手电筒、舞台聚光灯或车头灯</li>
-<li><strong>参数</strong>：通过 <code>Spot Angle</code> 控制圆锥的张开角度</li>
-</ul>
-<h3 id="面光源"><a href="#面光源" class="headerlink" title="面光源"></a>面光源</h3><p>面光源是一个矩形或圆形的发光面。</p>
-<ul>
-<li><strong>特点</strong>：光线均匀分布，光照柔和</li>
-<li><strong>限制</strong>：<strong>仅在烘焙或使用渐进光照贴图时有效</strong>，实时渲染中不可用</li>
-<li><strong>用途</strong>：模拟天花板的灯带、电视屏幕发光</li>
-</ul>
-<h2 id="光照模式"><a href="#光照模式" class="headerlink" title="光照模式"></a>光照模式</h2><p>Unity 中的每个光源都可以设置为以下三种模式之一：</p>
+<h3 id="1-2-光照模式分类"><a href="#1-2-光照模式分类" class="headerlink" title="1.2 光照模式分类"></a>1.2 光照模式分类</h3><p>在Unity的「Lighting窗口」（Window &gt; Rendering &gt; Lighting）中，可设置全局光照模式，三种模式的核心区别如下：</p>
 <table>
 <thead>
 <tr>
-<th>模式</th>
-<th>说明</th>
+<th>光照模式</th>
+<th>核心特点</th>
 <th>适用场景</th>
 </tr>
 </thead>
 <tbody><tr>
-<td><strong>Realtime</strong></td>
-<td>完全实时计算，光源和阴影可动态变化</td>
-<td>移动物体、日夜循环</td>
+<td>实时光照（Realtime）</td>
+<td>光线实时计算，支持动态物体、阴影实时更新，性能消耗较高</td>
+<td>PC端、主机端项目，动态场景（如第三人称游戏、动态天气）</td>
 </tr>
 <tr>
-<td><strong>Baked</strong></td>
-<td>完全预烘焙，运行时零开销</td>
-<td>静态场景、移动端性能优化</td>
+<td>烘焙光照（Baked）</td>
+<td>光线提前计算并烘焙到光照贴图，性能消耗极低，不支持动态物体阴影</td>
+<td>移动端项目、静态场景（如场景背景、建筑漫游）</td>
 </tr>
 <tr>
-<td><strong>Mixed</strong></td>
-<td>混合模式，部分实时，部分烘焙</td>
-<td>需要动态阴影的静态物体</td>
+<td>混合光照（Mixed）</td>
+<td>结合实时光照和烘焙光照，静态物体用烘焙，动态物体用实时光照</td>
+<td>兼顾性能与动态效果的项目（如开放世界游戏、半动态场景）</td>
 </tr>
 </tbody></table>
-<h2 id="阴影设置"><a href="#阴影设置" class="headerlink" title="阴影设置"></a>阴影设置</h2><p>阴影是增强场景立体感的重要元素。</p>
-<h3 id="阴影类型"><a href="#阴影类型" class="headerlink" title="阴影类型"></a>阴影类型</h3><ul>
-<li><strong>Hard Shadows</strong>：边缘清晰的阴影，性能开销较小</li>
-<li><strong>Soft Shadows</strong>：边缘柔和的阴影，更真实，开销较大</li>
+<h2 id="二、Unity光源类型及用法"><a href="#二、Unity光源类型及用法" class="headerlink" title="二、Unity光源类型及用法"></a>二、Unity光源类型及用法</h2><p>Unity提供了5种常用光源，每种光源对应不同的现实光线场景，需根据需求合理选择，避免过度使用导致性能浪费。</p>
+<h3 id="2-1-方向光（Directional-Light）"><a href="#2-1-方向光（Directional-Light）" class="headerlink" title="2.1 方向光（Directional Light）"></a>2.1 方向光（Directional Light）</h3><p>「方向光」是最常用的光源，模拟平行光（如太阳光），光线从无穷远发射，方向一致，无衰减（光线强度不随距离变化）。</p>
+<h4 id="核心参数"><a href="#核心参数" class="headerlink" title="核心参数"></a>核心参数</h4><ul>
+<li>Intensity：光线强度，默认1，数值越大光线越亮，移动端建议控制在0.5-2之间。</li>
+<li>Color：光线颜色，默认白色，可通过调整RGB模拟不同时间的光线（如早晨暖黄色、傍晚橙红色）。</li>
+<li>Shadow Type：阴影类型，None（无阴影）、Hard Shadows（硬阴影，边缘锐利）、Soft Shadows（软阴影，边缘柔和），软阴影性能消耗更高。</li>
+<li>Shadow Resolution：阴影分辨率，Low&#x2F;Medium&#x2F;High&#x2F;Very High，分辨率越高阴影越清晰，性能消耗越大。</li>
 </ul>
-<h3 id="阴影质量优化"><a href="#阴影质量优化" class="headerlink" title="阴影质量优化"></a>阴影质量优化</h3><p>在 Quality Settings 中可以调整以下参数：</p>
+<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><p>模拟太阳光、月光，作为场景的主光源，决定场景的整体明暗和阴影方向。</p>
+<h3 id="2-2-点光源（Point-Light）"><a href="#2-2-点光源（Point-Light）" class="headerlink" title="2.2 点光源（Point Light）"></a>2.2 点光源（Point Light）</h3><p>「点光源」模拟点光源（如灯泡、蜡烛），光线从光源中心向四周发散，有衰减（距离越远光线越暗）。</p>
+<h4 id="核心参数-1"><a href="#核心参数-1" class="headerlink" title="核心参数"></a>核心参数</h4><ul>
+<li>Range：光线范围，控制光线能照射到的最远距离，范围越大性能消耗越高。</li>
+<li>Intensity：光线强度，受Range影响，Range越大，相同强度下视觉上越暗。</li>
+<li>Attenuation：衰减方式，默认Linear（线性衰减），可选择Quadratic（二次衰减，更接近现实）。</li>
+</ul>
+<h4 id="适用场景-1"><a href="#适用场景-1" class="headerlink" title="适用场景"></a>适用场景</h4><p>场景中的局部光源，如台灯、火把、灯笼等，用于营造局部明暗对比。</p>
+<h3 id="2-3-聚光灯（Spot-Light）"><a href="#2-3-聚光灯（Spot-Light）" class="headerlink" title="2.3 聚光灯（Spot Light）"></a>2.3 聚光灯（Spot Light）</h3><p>「聚光灯」模拟聚光效果（如手电筒、探照灯），光线从光源中心向一个锥形区域发射，有衰减和角度限制。</p>
+<h4 id="核心参数-2"><a href="#核心参数-2" class="headerlink" title="核心参数"></a>核心参数</h4><ul>
+<li>Range：光线范围，同点光源，控制照射最远距离。</li>
+<li>Intensity：光线强度。</li>
+<li>Spot Angle：聚光角度，角度越小，光线越集中（如手电筒）；角度越大，光线越分散（如探照灯）。</li>
+<li>Penumbra Angle：半影角度，控制聚光边缘的柔和度，数值越大，边缘越模糊。</li>
+</ul>
+<h4 id="适用场景-2"><a href="#适用场景-2" class="headerlink" title="适用场景"></a>适用场景</h4><p>手电筒、探照灯、舞台灯光等，用于突出特定区域或物体。</p>
+<h3 id="2-4-区域光（Area-Light）"><a href="#2-4-区域光（Area-Light）" class="headerlink" title="2.4 区域光（Area Light）"></a>2.4 区域光（Area Light）</h3><p>「区域光」模拟面光源（如窗户、灯带），光线从一个矩形区域发射，光线柔和，无明显阴影边缘，仅支持烘焙光照（不支持实时光照）。</p>
+<h4 id="核心参数-3"><a href="#核心参数-3" class="headerlink" title="核心参数"></a>核心参数</h4><ul>
+<li>Width&#x2F;Height：区域光的宽度和高度，决定光源的大小，尺寸越大，光线越柔和。</li>
+<li>Intensity：光线强度。</li>
+</ul>
+<h4 id="适用场景-3"><a href="#适用场景-3" class="headerlink" title="适用场景"></a>适用场景</h4><p>室内场景的窗户光、灯带、天花板灯等，用于营造柔和的环境光。</p>
+<h3 id="2-5-环境光（Ambient-Light）"><a href="#2-5-环境光（Ambient-Light）" class="headerlink" title="2.5 环境光（Ambient Light）"></a>2.5 环境光（Ambient Light）</h3><p>「环境光」不是独立光源，而是场景的全局基础光，用于照亮场景中所有未被直接光源照射的区域，避免出现纯黑死角。</p>
+<h4 id="核心设置"><a href="#核心设置" class="headerlink" title="核心设置"></a>核心设置</h4><ul>
+<li>Ambient Source：环境光来源，可选择Skybox（天空盒）、Color（纯色）、Gradient（渐变）。</li>
+<li>Ambient Intensity：环境光强度，默认0.2，数值越大，场景整体越亮。</li>
+</ul>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><p>环境光不宜过亮，否则会导致场景明暗对比不明显，失去层次感。</p>
+<h2 id="三、光照参数进阶设置"><a href="#三、光照参数进阶设置" class="headerlink" title="三、光照参数进阶设置"></a>三、光照参数进阶设置</h2><p>除了单个光源的参数，Unity的光照系统还有一些全局设置，直接影响场景的光照效果和性能，重点关注以下几点。</p>
+<h3 id="3-1-阴影设置（全局）"><a href="#3-1-阴影设置（全局）" class="headerlink" title="3.1 阴影设置（全局）"></a>3.1 阴影设置（全局）</h3><p>在Lighting窗口的「Shadows」面板中，可设置全局阴影参数，优化阴影效果和性能：</p>
 <ul>
-<li>Shadow Resolution：阴影贴图分辨率</li>
-<li>Shadow Distance：阴影显示距离</li>
-<li>Shadow Cascade：阴影级联，用于改善远近距离的阴影质量</li>
+<li>Shadow Distance：阴影距离，控制相机能看到的最大阴影距离，距离越小，性能消耗越低（移动端建议控制在50以内）。</li>
+<li>Shadow Cascades：阴影级联（仅方向光），用于优化远距离阴影的清晰度，分为1&#x2F;2&#x2F;4级，级联越多，阴影越清晰，性能消耗越高（移动端建议1-2级）。</li>
+<li>Shadow Resolution：全局阴影分辨率，与单个光源的阴影分辨率叠加，需根据项目性能平衡。</li>
 </ul>
-<h3 id="阴影级联"><a href="#阴影级联" class="headerlink" title="阴影级联"></a>阴影级联</h3><p>阴影级联通过将摄像机的视锥体分割成多个区域，为近处物体提供更高精度的阴影贴图。<br>建议配置：</p>
+<h3 id="3-2-烘焙光照设置"><a href="#3-2-烘焙光照设置" class="headerlink" title="3.2 烘焙光照设置"></a>3.2 烘焙光照设置</h3><p>使用烘焙光照时，需在Lighting窗口进行以下设置，确保烘焙效果和性能：</p>
 <ul>
-<li>2 级联：适合大多数移动端</li>
-<li>4 级联：适合 PC 和主机平台的高质量阴影</li>
+<li>Baked Global Illumination：勾选「Baked Global Illumination」开启烘焙光照。</li>
+<li>Lightmap Resolution：光照贴图分辨率，单位是像素&#x2F;米（Pixels Per Meter），数值越大，光照贴图越清晰，文件体积越大（移动端建议10-50）。</li>
+<li>Lightmap Padding：光照贴图间距，避免不同物体的光照贴图重叠，默认2，可根据需求调整。</li>
+<li>Bake：点击「Bake」按钮开始烘焙，烘焙完成后，静态物体的光照信息会存储在光照贴图中。</li>
 </ul>
-<h2 id="全局光照"><a href="#全局光照" class="headerlink" title="全局光照"></a>全局光照</h2><p>全局光照（Global Illumination, GI）模拟光线的间接反弹，实现光漫射和颜色溢出现象。</p>
-<h3 id="实时-GI"><a href="#实时-GI" class="headerlink" title="实时 GI"></a>实时 GI</h3><ul>
-<li>使用 <strong>Enlighten</strong> 系统（Unity 2019 之前）或 <strong>自适应探针体积</strong></li>
-<li>支持动态物体的间接光照</li>
-<li>对性能有一定消耗</li>
+<h3 id="3-3-光照探针（Light-Probes）"><a href="#3-3-光照探针（Light-Probes）" class="headerlink" title="3.3 光照探针（Light Probes）"></a>3.3 光照探针（Light Probes）</h3><p>光照探针用于解决动态物体在烘焙光照场景中的光照问题，通过在场景中放置探针，采集周围的光照信息，让动态物体（如角色、敌人）也能受到烘焙光照的影响，同时不消耗过多性能。</p>
+<h4 id="核心设置-1"><a href="#核心设置-1" class="headerlink" title="核心设置"></a>核心设置</h4><ul>
+<li>新建光照探针：右键场景空白处 &gt; Light &gt; Light Probe Group，创建光照探针组。</li>
+<li>布局探针：在Scene窗口中拖动探针节点，均匀分布在场景中，重点覆盖动态物体活动区域。</li>
+<li>烘焙探针：开启烘焙光照后，点击「Bake」，探针会自动采集光照信息，动态物体挂载Renderer组件后，会自动接收探针的光照数据。</li>
 </ul>
-<h3 id="烘焙-GI"><a href="#烘焙-GI" class="headerlink" title="烘焙 GI"></a>烘焙 GI</h3><ul>
-<li>将光照信息预先计算并存储到光照贴图中</li>
-<li>运行时零性能开销</li>
-<li>适合静态场景</li>
+<h4 id="注意事项-1"><a href="#注意事项-1" class="headerlink" title="注意事项"></a>注意事项</h4><p>探针数量不宜过多，否则会增加烘焙时间和内存占用，建议根据场景大小合理布置（小型场景10-20个，大型场景50-100个）。</p>
+<h3 id="3-4-反射探针（Reflection-Probes）"><a href="#3-4-反射探针（Reflection-Probes）" class="headerlink" title="3.4 反射探针（Reflection Probes）"></a>3.4 反射探针（Reflection Probes）</h3><p>反射探针用于模拟物体的反射效果（如金属、玻璃、水面），通过采集周围环境的纹理，生成反射贴图，让物体表面呈现出环境反射效果，提升场景真实感。</p>
+<h4 id="核心设置-2"><a href="#核心设置-2" class="headerlink" title="核心设置"></a>核心设置</h4><ul>
+<li>新建反射探针：右键场景空白处 &gt; Light &gt; Reflection Probe，创建反射探针。</li>
+<li>探针类型：分为Baked（烘焙型，提前采集环境，性能消耗低）、Realtime（实时型，实时采集环境，性能消耗高）、Custom（自定义，手动指定反射贴图）。</li>
+<li>采集范围：调整探针的Size参数，控制采集环境的范围，范围越大，反射效果越全面。</li>
 </ul>
-<p><strong>烘焙流程：</strong></p>
+<h4 id="适用场景-4"><a href="#适用场景-4" class="headerlink" title="适用场景"></a>适用场景</h4><p>金属物体、玻璃、水面、高光材质等需要反射效果的物体，建议在室内场景或封闭场景中使用，效果更明显。</p>
+<h2 id="四、光照烘焙实战技巧"><a href="#四、光照烘焙实战技巧" class="headerlink" title="四、光照烘焙实战技巧"></a>四、光照烘焙实战技巧</h2><p>烘焙光照是移动端项目优化的核心手段，合理的烘焙设置能在保证视觉效果的同时，大幅降低性能消耗，以下是实战中常用的技巧。</p>
+<h3 id="4-1-静态物体标记"><a href="#4-1-静态物体标记" class="headerlink" title="4.1 静态物体标记"></a>4.1 静态物体标记</h3><p>烘焙光照仅对「静态物体」生效，需将场景中不需要移动的物体（如地面、建筑、道具）标记为静态：</p>
 <ol>
-<li>将物体标记为 <code>Static</code> → <code>Contribute GI</code></li>
-<li>在 Lighting 窗口中配置光照贴图参数</li>
-<li>点击 <code>Generate Lighting</code> 开始烘焙</li>
+<li>选中物体，在Inspector窗口中勾选「Static」（静态标记）。</li>
+<li>若多个物体需要标记，可框选所有物体，右键 &gt; Static &gt; Contribute GI（贡献全局光照）。</li>
 </ol>
-<h3 id="光照探针"><a href="#光照探针" class="headerlink" title="光照探针"></a>光照探针</h3><p>光照探针用于为动态物体提供间接光照信息。</p>
+<h4 id="注意事项-2"><a href="#注意事项-2" class="headerlink" title="注意事项"></a>注意事项</h4><p>动态物体（如角色、移动的道具）不可标记为静态，否则无法移动；若动态物体需要受到烘焙光照影响，需使用光照探针。</p>
+<h3 id="4-2-光照贴图优化"><a href="#4-2-光照贴图优化" class="headerlink" title="4.2 光照贴图优化"></a>4.2 光照贴图优化</h3><p>光照贴图的分辨率和质量直接影响烘焙效果和文件体积，优化技巧如下：</p>
 <ul>
-<li>在场景中放置探针组</li>
-<li>动态物体会自动采样附近探针的光照信息</li>
-<li>建议在光照变化明显的区域密集放置</li>
+<li>按物体设置分辨率：选中单个静态物体，在Inspector窗口中找到「Lightmap Settings」，设置「Lightmap Size」，对重要物体（如主角周围的道具）设置较高分辨率，次要物体（如远处的背景）设置较低分辨率。</li>
+<li>压缩光照贴图：在Lighting窗口中，设置「Lightmap Format」为压缩格式（如ETC2、ASTC），降低文件体积，移动端优先选择ETC2格式。</li>
+<li>减少光照贴图重叠：调整「Lightmap Padding」参数，避免不同物体的光照贴图重叠，导致烘焙出现异常。</li>
 </ul>
-<h2 id="反射探针"><a href="#反射探针" class="headerlink" title="反射探针"></a>反射探针</h2><p>反射探针用于捕捉周围环境，为金属或光滑材质提供准确的反射效果。</p>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>Baked</strong></td>
-<td>预先烘焙的反射贴图，性能最优</td>
-</tr>
-<tr>
-<td><strong>Realtime</strong></td>
-<td>实时更新反射内容，开销较大</td>
-</tr>
-<tr>
-<td><strong>Custom</strong></td>
-<td>使用自定义的 Cubemap</td>
-</tr>
-</tbody></table>
-<h2 id="性能优化建议"><a href="#性能优化建议" class="headerlink" title="性能优化建议"></a>性能优化建议</h2><h3 id="1-减少实时光源数量"><a href="#1-减少实时光源数量" class="headerlink" title="1. 减少实时光源数量"></a>1. 减少实时光源数量</h3><ul>
-<li>限制每像素实时光源的数量（建议场景主光源使用方向光）</li>
-<li>次要光源使用烘焙模式</li>
+<h3 id="4-3-烘焙时间优化"><a href="#4-3-烘焙时间优化" class="headerlink" title="4.3 烘焙时间优化"></a>4.3 烘焙时间优化</h3><p>大型场景烘焙时间较长，可通过以下设置缩短烘焙时间：</p>
+<ul>
+<li>降低光照贴图分辨率：全局或单个物体降低Lightmap Resolution，是缩短烘焙时间最有效的方法。</li>
+<li>关闭不必要的烘焙选项：在Lighting窗口中，取消勾选「Auto Generate」（自动生成），手动控制烘焙时机；取消勾选「Reflective GI」（反射全局光照），若不需要反射效果可关闭。</li>
+<li>分区域烘焙：将场景分为多个区域，分别标记静态物体，单独烘焙每个区域，避免一次性烘焙整个场景。</li>
 </ul>
-<h3 id="2-优化阴影"><a href="#2-优化阴影" class="headerlink" title="2. 优化阴影"></a>2. 优化阴影</h3><ul>
-<li>远处物体可以不投射阴影</li>
-<li>使用 <code>Shadow Distance</code> 限制阴影渲染距离</li>
-<li>移动端尽量使用硬阴影或无阴影</li>
-</ul>
-<h3 id="3-合理使用-LOD"><a href="#3-合理使用-LOD" class="headerlink" title="3. 合理使用 LOD"></a>3. 合理使用 LOD</h3><ul>
-<li>结合 LOD 组件，远距离物体使用低精度阴影或关闭阴影</li>
-</ul>
-<h3 id="4-光照贴图优化"><a href="#4-光照贴图优化" class="headerlink" title="4. 光照贴图优化"></a>4. 光照贴图优化</h3><ul>
-<li>控制光照贴图分辨率（移动端建议 512 或 1024）</li>
-<li>合并静态物体的光照贴图图集</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Unity 的光照系统灵活而强大，合理的选择和配置可以在视觉效果和性能之间取得平衡。实践中建议：</p>
+<h2 id="五、常见光照问题排查"><a href="#五、常见光照问题排查" class="headerlink" title="五、常见光照问题排查"></a>五、常见光照问题排查</h2><p>在使用Unity光照时，经常会遇到阴影异常、烘焙发黑、光照过亮等问题，以下是常见问题及解决方案。</p>
+<h3 id="5-1-阴影异常（阴影缺失、阴影闪烁、阴影模糊）"><a href="#5-1-阴影异常（阴影缺失、阴影闪烁、阴影模糊）" class="headerlink" title="5.1 阴影异常（阴影缺失、阴影闪烁、阴影模糊）"></a>5.1 阴影异常（阴影缺失、阴影闪烁、阴影模糊）</h3><h4 id="问题1：动态物体没有阴影"><a href="#问题1：动态物体没有阴影" class="headerlink" title="问题1：动态物体没有阴影"></a>问题1：动态物体没有阴影</h4><p>解决方案：</p>
 <ol>
-<li>优先考虑烘焙静态场景的光照</li>
-<li>动态物体配合光照探针获取间接光</li>
-<li>控制实时阴影的范围和质量</li>
-<li>根据目标平台调整光照设置</li>
+<li>检查光源的Shadow Type是否设置为Hard Shadows或Soft Shadows（不可为None）。</li>
+<li>检查动态物体的Renderer组件是否勾选「Receive Shadows」和「Cast Shadows」。</li>
+<li>若使用混合光照，检查动态物体是否未标记为静态，且光源的「Mixed Lighting Mode」设置正确。</li>
 </ol>
+<h4 id="问题2：烘焙后静态物体阴影缺失"><a href="#问题2：烘焙后静态物体阴影缺失" class="headerlink" title="问题2：烘焙后静态物体阴影缺失"></a>问题2：烘焙后静态物体阴影缺失</h4><p>解决方案：</p>
+<ol>
+<li>确认物体已标记为静态，且勾选「Contribute GI」和「Receive GI」。</li>
+<li>检查Lighting窗口中是否勾选「Baked Global Illumination」，且已点击「Bake」完成烘焙。</li>
+<li>检查光源是否设置为「Baked」或「Mixed」模式，若为「Realtime」模式，静态物体阴影不会烘焙。</li>
+</ol>
+<h4 id="问题3：阴影闪烁（实时光照场景）"><a href="#问题3：阴影闪烁（实时光照场景）" class="headerlink" title="问题3：阴影闪烁（实时光照场景）"></a>问题3：阴影闪烁（实时光照场景）</h4><p>解决方案：</p>
+<ol>
+<li>降低「Shadow Distance」，减少远处阴影的渲染压力。</li>
+<li>提高「Shadow Resolution」，避免阴影像素化导致的闪烁。</li>
+<li>开启「Shadow Stabilization」（阴影稳定化），在Lighting窗口的Shadows面板中设置。</li>
+</ol>
+<h3 id="5-2-烘焙后场景发黑、光照不均匀"><a href="#5-2-烘焙后场景发黑、光照不均匀" class="headerlink" title="5.2 烘焙后场景发黑、光照不均匀"></a>5.2 烘焙后场景发黑、光照不均匀</h3><h4 id="问题1：烘焙后场景整体发黑"><a href="#问题1：烘焙后场景整体发黑" class="headerlink" title="问题1：烘焙后场景整体发黑"></a>问题1：烘焙后场景整体发黑</h4><p>解决方案：</p>
+<ol>
+<li>检查环境光强度，适当提高Ambient Intensity（建议0.2-0.5）。</li>
+<li>检查光源强度，确保主光源（方向光）强度足够（默认1-2）。</li>
+<li>检查静态物体是否勾选「Receive GI」，若未勾选，物体无法接收烘焙光照。</li>
+</ol>
+<h4 id="问题2：烘焙后光照不均匀，出现黑斑、亮斑"><a href="#问题2：烘焙后光照不均匀，出现黑斑、亮斑" class="headerlink" title="问题2：烘焙后光照不均匀，出现黑斑、亮斑"></a>问题2：烘焙后光照不均匀，出现黑斑、亮斑</h4><p>解决方案：</p>
+<ol>
+<li>提高光照贴图分辨率，或单独提高异常区域物体的Lightmap Size。</li>
+<li>调整「Lightmap Padding」参数，增大间距，避免光照贴图重叠。</li>
+<li>检查场景中是否有遮挡物阻挡光线，或光源位置不合理，调整光源角度和位置。</li>
+</ol>
+<h3 id="5-3-光照过亮、画面泛白"><a href="#5-3-光照过亮、画面泛白" class="headerlink" title="5.3 光照过亮、画面泛白"></a>5.3 光照过亮、画面泛白</h3><p>解决方案：</p>
+<ol>
+<li>降低光源Intensity，尤其是方向光和环境光。</li>
+<li>检查物体材质的Emission（自发光）参数，若自发光过强，会导致画面泛白。</li>
+<li>关闭「Auto Exposure」（自动曝光），在Post Processing窗口中设置，避免画面自动提亮。</li>
+</ol>
+<h2 id="六、光照性能优化总结"><a href="#六、光照性能优化总结" class="headerlink" title="六、光照性能优化总结"></a>六、光照性能优化总结</h2><p>Unity光照性能优化的核心是「平衡视觉效果与性能消耗」，尤其是移动端项目，需重点关注以下几点：</p>
+<ol>
+<li>优先使用烘焙光照，静态物体全部标记为静态，减少实时光照数量。</li>
+<li>控制光源数量，避免过多点光源、聚光灯同时存在，优先使用方向光作为主光源。</li>
+<li>优化阴影设置，降低阴影距离、阴影分辨率，移动端尽量使用硬阴影，减少阴影级联数量。</li>
+<li>合理设置光照贴图分辨率和压缩格式，减少内存占用。</li>
+<li>动态物体使用光照探针接收烘焙光照，避免使用实时光照照射动态物体。</li>
+</ol>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>光照是Unity场景渲染的灵魂，掌握光照的基础原理、光源类型和烘焙技巧，能让你的场景更具真实感和氛围感。在实际开发中，需根据项目的平台（PC&#x2F;移动端）、场景类型（静态&#x2F;动态）和性能要求，灵活调整光照设置，避免过度追求视觉效果而忽略性能。希望本文能帮助你快速掌握Unity光照系统，解决实际开发中的光照问题。</p>
 <hr>
 <p><em>本文基于 Unity 2022 LTS 版本编写，不同版本的部分功能可能有所差异。</em></p>
 
@@ -837,7 +865,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/zeng.github.io/tags/Unity%E5%B8%B8%E8%A7%81%E7%9A%84-Api/" class="print-no-link">#Unity常见的 Api</a>
+        <a href="/zeng.github.io/tags/%E5%85%89%E7%85%A7%E7%B3%BB%E7%BB%9F/" class="print-no-link">#光照系统</a>
       
     </div>
   
@@ -868,7 +896,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2026年4月1日</div>
+          <div>2026年4月2日</div>
         </div>
       
       
