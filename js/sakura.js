@@ -79,7 +79,7 @@
     };
 
     function init() {
-        for (var i = 0; i < 30; i++) {
+        for (var i = 0; i < 15; i++) {
             particles.push(new Particle());
         }
         animate();
