@@ -1,5 +1,6 @@
 // 樱花飘落特效
 (function() {
+    var sakura = {};
     var canvas = document.createElement('canvas');
     canvas.style.position = 'fixed';
     canvas.style.top = '0';
@@ -78,7 +79,7 @@
     };
 
     function init() {
-        for (var i = 0; i < 20; i++) {
+        for (var i = 0; i < 30; i++) {
             particles.push(new Particle());
         }
         animate();
