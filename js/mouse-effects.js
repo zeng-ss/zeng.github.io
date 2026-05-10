@@ -1,4 +1,4 @@
-// 鼠标拖尾 + 点击炫酷爆炸效果（大星星 + 花瓣 + 闪光）
+// 鼠标拖尾 + 水波能量环 + 光柱特效
 (function() {
     var canvas = document.createElement('canvas');
     canvas.style.position = 'fixed';
@@ -16,9 +16,9 @@
     var width = canvas.width;
     var height = canvas.height;
 
-    // ========== 鼠标拖尾效果（保持不变）==========
+    // ========== 鼠标拖尾效果（简化版，更柔和）==========
     var trailDots = [];
-    var maxTrailLength = 20;
+    var maxTrailLength = 15;
     var mouseX = width / 2;
     var mouseY = height / 2;
     var lastMouseX = mouseX;
@@ -29,26 +29,23 @@
     function TrailDot(x, y) {
         this.x = x;
         this.y = y;
-        this.size = 10;
-        this.opacity = 0.8;
+        this.size = 6;
         this.life = 1.0;
         this.decay = 0.06;
     }
 
     TrailDot.prototype.update = function() {
         this.life -= this.decay;
-        this.opacity = this.life * 0.7;
-        this.size = 12 * this.life;
+        this.size = 8 * this.life;
         return this.life > 0;
     };
 
     TrailDot.prototype.draw = function() {
         ctx.beginPath();
-        var hue = (Date.now() * 0.008 + this.x * 0.5) % 360;
+        var hue = (Date.now() * 0.005 + this.x * 0.3) % 360;
         var gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
-        gradient.addColorStop(0, `hsla(${hue}, 95%, 70%, ${this.opacity})`);
-        gradient.addColorStop(0.6, `hsla(${hue + 40}, 90%, 60%, ${this.opacity * 0.5})`);
-        gradient.addColorStop(1, `hsla(${hue + 80}, 85%, 50%, 0)`);
+        gradient.addColorStop(0, `hsla(${hue}, 90%, 70%, ${this.life * 0.6})`);
+        gradient.addColorStop(1, `hsla(${hue + 40}, 85%, 60%, 0)`);
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fillStyle = gradient;
         ctx.fill();
@@ -70,197 +67,137 @@
         for (var i = 0; i < trailDots.length; i++) trailDots[i].draw();
     }
 
-    // ========== 全新爆炸效果 ==========
-    var explosions = [];
+    // ========== 全新特效：水波 + 能量环 + 光柱 ==========
+    var effects = [];
 
-    // 大星星粒子
-    function BigStar(x, y, vx, vy, size, color, life, rotationSpeed) {
+    // 水波环
+    function RippleWave(x, y, radius, hue, maxRadius) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.hue = hue;
+        this.maxRadius = maxRadius;
+        this.life = 1.0;
+        this.decay = 0.025;
+        this.lineWidth = 4;
+    }
+
+    RippleWave.prototype.update = function() {
+        this.life -= this.decay;
+        this.radius = this.maxRadius * (1 - this.life);
+        this.lineWidth = 5 * this.life;
+        return this.life > 0;
+    };
+
+    RippleWave.prototype.draw = function() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `hsla(${this.hue}, 90%, 65%, ${this.life * 0.8})`;
+        ctx.lineWidth = this.lineWidth;
+        ctx.stroke();
+
+        // 内圈
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius * 0.6, 0, Math.PI * 2);
+        ctx.strokeStyle = `hsla(${this.hue + 30}, 85%, 70%, ${this.life * 0.5})`;
+        ctx.lineWidth = this.lineWidth * 0.6;
+        ctx.stroke();
+    };
+
+    // 能量粒子（向上飘）
+    function EnergyParticle(x, y, vx, vy, size, hue, life) {
         this.x = x;
         this.y = y;
         this.vx = vx;
         this.vy = vy;
         this.size = size;
-        this.color = color;
+        this.hue = hue;
         this.life = life;
         this.maxLife = life;
-        this.rotation = Math.random() * Math.PI * 2;
-        this.rotationSpeed = rotationSpeed || (Math.random() - 0.5) * 0.15;
     }
 
-    BigStar.prototype.update = function() {
+    EnergyParticle.prototype.update = function() {
         this.x += this.vx;
         this.y += this.vy;
-        this.vy += 0.04;
-        this.life -= 0.018;
-        this.rotation += this.rotationSpeed;
+        this.vy -= 0.15;
+        this.life -= 0.02;
         return this.life > 0;
     };
 
-    BigStar.prototype.draw = function() {
+    EnergyParticle.prototype.draw = function() {
         var opacity = this.life / this.maxLife;
         var currentSize = this.size * opacity;
-
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.rotation);
-
-        // 绘制大五角星
         ctx.beginPath();
-        var spikes = 5;
-        var outerRadius = currentSize;
-        var innerRadius = currentSize * 0.4;
-
-        for (var i = 0; i < spikes * 2; i++) {
-            var radius = i % 2 === 0 ? outerRadius : innerRadius;
-            var angle = (i * Math.PI) / spikes;
-            var x = Math.cos(angle) * radius;
-            var y = Math.sin(angle) * radius;
-            if (i === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
-        }
-        ctx.closePath();
-
-        ctx.fillStyle = this.color;
+        ctx.arc(this.x, this.y, currentSize, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${this.hue}, 95%, 65%, ${opacity * 0.8})`;
         ctx.fill();
 
-        // 星星中心高光
+        // 拖尾光晕
         ctx.beginPath();
-        ctx.arc(0, 0, currentSize * 0.25, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 200, ${opacity * 0.9})`;
+        ctx.arc(this.x, this.y, currentSize * 1.8, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${this.hue}, 90%, 70%, ${opacity * 0.3})`;
         ctx.fill();
-
-        ctx.restore();
     };
 
-    // 花瓣粒子
-    function Petal(x, y, vx, vy, size, color, life) {
+    // 光柱（从点击点向上爆发）
+    function LightBeam(x, y, hue) {
         this.x = x;
         this.y = y;
-        this.vx = vx;
-        this.vy = vy;
-        this.size = size;
-        this.color = color;
-        this.life = life;
-        this.maxLife = life;
-        this.rotation = Math.random() * Math.PI * 2;
-        this.rotationSpeed = (Math.random() - 0.5) * 0.1;
+        this.hue = hue;
+        this.height = 0;
+        this.width = 12;
+        this.life = 1.0;
+        this.decay = 0.04;
+        this.maxHeight = 120;
     }
 
-    Petal.prototype.update = function() {
-        this.x += this.vx;
-        this.y += this.vy;
-        this.vy += 0.02;
-        this.life -= 0.015;
-        this.rotation += this.rotationSpeed;
+    LightBeam.prototype.update = function() {
+        this.life -= this.decay;
+        this.height = this.maxHeight * (1 - this.life);
+        this.width = 14 * this.life;
         return this.life > 0;
     };
 
-    Petal.prototype.draw = function() {
-        var opacity = this.life / this.maxLife;
-        var currentSize = this.size * opacity;
-
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.rotation);
-
-        // 绘制花瓣形状
-        ctx.beginPath();
-        ctx.ellipse(0, 0, currentSize, currentSize * 0.7, 0, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-
-        ctx.restore();
+    LightBeam.prototype.draw = function() {
+        var grad = ctx.createLinearGradient(this.x, this.y, this.x, this.y - this.height);
+        grad.addColorStop(0, `hsla(${this.hue}, 95%, 60%, ${this.life * 0.7})`);
+        grad.addColorStop(1, `hsla(${this.hue + 40}, 90%, 70%, 0)`);
+        ctx.fillStyle = grad;
+        ctx.fillRect(this.x - this.width / 2, this.y - this.height, this.width, this.height);
     };
 
-    // 闪光粒子
-    function Flash(x, y, size, color) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.color = color;
-        this.life = 0.3;
-        this.maxLife = 0.3;
-    }
+    // 主特效类
+    function ClickEffect(x, y) {
+        var baseHue = Math.random() * 360;
 
-    Flash.prototype.update = function() {
-        this.life -= 0.03;
-        return this.life > 0;
-    };
-
-    Flash.prototype.draw = function() {
-        var opacity = this.life / this.maxLife;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size * (1 - opacity), 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-
-        // 外圈光晕
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size * 1.5 * (1 - opacity), 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 200, 100, ${opacity * 0.4})`;
-        ctx.fill();
-    };
-
-    // 主爆炸类
-    function Explosion(x, y) {
         this.particles = [];
 
-        // 爆炸主色调（随机暖色）
-        var mainHue = Math.random() * 360;
-
-        // 1. 3-5颗大星星（核心效果）
-        var starCount = Math.floor(Math.random() * 3) + 3; // 3-5颗
-        for (var i = 0; i < starCount; i++) {
-            var angle = Math.random() * Math.PI * 2;
-            var speed = Math.random() * 4 + 1.5;
-            var vx = Math.cos(angle) * speed;
-            var vy = Math.sin(angle) * speed;
-            var size = Math.random() * 12 + 10; // 10-22px 大星星
-            var hue = (mainHue + (Math.random() - 0.5) * 60) % 360;
-            var color = `hsla(${hue}, 95%, 65%, 1)`;
-            var life = Math.random() * 0.8 + 0.7;
-            var rotSpeed = (Math.random() - 0.5) * 0.12;
-            this.particles.push(new BigStar(x, y, vx, vy, size, color, life, rotSpeed));
+        // 1. 3个水波环（不同大小、不同颜色）
+        for (var i = 0; i < 3; i++) {
+            var radius = 5 + i * 8;
+            var maxRadius = 60 + i * 30;
+            var hue = (baseHue + i * 40) % 360;
+            this.particles.push(new RippleWave(x, y, radius, hue, maxRadius));
         }
 
-        // 2. 6-10片花瓣飘散
-        var petalCount = Math.floor(Math.random() * 5) + 6;
-        for (var i = 0; i < petalCount; i++) {
-            var angle = Math.random() * Math.PI * 2;
-            var speed = Math.random() * 6 + 2;
-            var vx = Math.cos(angle) * speed;
-            var vy = Math.sin(angle) * speed;
-            var size = Math.random() * 6 + 4;
-            // 粉色/红色/橙色系
-            var hue = (mainHue + 80 + Math.random() * 60) % 360;
-            var color = `hsla(${hue}, 85%, 65%, 0.9)`;
-            var life = Math.random() * 0.7 + 0.5;
-            this.particles.push(new Petal(x, y, vx, vy, size, color, life));
-        }
+        // 2. 光柱
+        this.particles.push(new LightBeam(x, y, baseHue));
 
-        // 3. 1-2道闪光（爆炸中心）
-        var flashCount = Math.floor(Math.random() * 2) + 1;
-        for (var i = 0; i < flashCount; i++) {
-            var size = Math.random() * 25 + 20;
-            var color = `rgba(255, ${Math.floor(150 + Math.random() * 105)}, 80, 0.9)`;
-            this.particles.push(new Flash(x, y, size, color));
-        }
-
-        // 4. 少量小星尘（增加丰富度）
-        var dustCount = 8;
-        for (var i = 0; i < dustCount; i++) {
-            var angle = Math.random() * Math.PI * 2;
-            var speed = Math.random() * 8 + 3;
-            var vx = Math.cos(angle) * speed;
-            var vy = Math.sin(angle) * speed;
-            var size = Math.random() * 4 + 2;
-            var color = `hsl(${mainHue + 30}, 90%, 70%)`;
-            var life = Math.random() * 0.5 + 0.3;
-            this.particles.push(new BigStar(x, y, vx, vy, size, color, life, 0.2));
+        // 3. 向上飘散的能量粒子（8-12个）
+        var particleCount = Math.floor(Math.random() * 5) + 8;
+        for (var i = 0; i < particleCount; i++) {
+            var angle = Math.random() * Math.PI - Math.PI / 2;
+            var speed = Math.random() * 4 + 2;
+            var vx = Math.cos(angle) * speed * (Math.random() - 0.5) * 1.5;
+            var vy = Math.sin(angle) * speed + 2;
+            var size = Math.random() * 5 + 3;
+            var hue = (baseHue + (Math.random() - 0.5) * 60) % 360;
+            var life = Math.random() * 0.6 + 0.5;
+            this.particles.push(new EnergyParticle(x, y, vx, vy, size, hue, life));
         }
     }
 
-    Explosion.prototype.update = function() {
+    ClickEffect.prototype.update = function() {
         for (var i = this.particles.length - 1; i >= 0; i--) {
             if (!this.particles[i].update()) {
                 this.particles.splice(i, 1);
@@ -269,25 +206,29 @@
         return this.particles.length > 0;
     };
 
-    Explosion.prototype.draw = function() {
+    ClickEffect.prototype.draw = function() {
         for (var i = 0; i < this.particles.length; i++) {
             this.particles[i].draw();
         }
     };
 
-    function addExplosion(x, y) {
-        explosions.push(new Explosion(x, y));
-        if (explosions.length > 5) explosions.shift();
+    var activeEffects = [];
+
+    function addEffect(x, y) {
+        activeEffects.push(new ClickEffect(x, y));
+        if (activeEffects.length > 6) activeEffects.shift();
     }
 
-    function updateExplosions() {
-        for (var i = explosions.length - 1; i >= 0; i--) {
-            if (!explosions[i].update()) explosions.splice(i, 1);
+    function updateEffects() {
+        for (var i = activeEffects.length - 1; i >= 0; i--) {
+            if (!activeEffects[i].update()) activeEffects.splice(i, 1);
         }
     }
 
-    function drawExplosions() {
-        for (var i = 0; i < explosions.length; i++) explosions[i].draw();
+    function drawEffects() {
+        for (var i = 0; i < activeEffects.length; i++) {
+            activeEffects[i].draw();
+        }
     }
 
     // ========== 鼠标事件 ==========
@@ -300,7 +241,7 @@
     }
 
     function onMouseClick(e) {
-        addExplosion(e.clientX, e.clientY);
+        addEffect(e.clientX, e.clientY);
     }
 
     function onTouchMove(e) {
@@ -316,7 +257,7 @@
     function onTouchStart(e) {
         e.preventDefault();
         var touch = e.touches[0];
-        addExplosion(touch.clientX, touch.clientY);
+        addEffect(touch.clientX, touch.clientY);
     }
 
     function resize() {
@@ -330,8 +271,8 @@
         ctx.clearRect(0, 0, width, height);
         updateTrail();
         drawTrail();
-        updateExplosions();
-        drawExplosions();
+        updateEffects();
+        drawEffects();
         requestAnimationFrame(animate);
     }
 
