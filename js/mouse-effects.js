@@ -1,4 +1,4 @@
-// 鼠标拖尾 + 点击星星爆炸效果
+// 鼠标拖尾 + 点击炫酷爆炸效果（大星星 + 花瓣 + 闪光）
 (function() {
     var canvas = document.createElement('canvas');
     canvas.style.position = 'fixed';
@@ -16,9 +16,9 @@
     var width = canvas.width;
     var height = canvas.height;
 
-    // ========== 鼠标拖尾效果 ==========
+    // ========== 鼠标拖尾效果（保持不变）==========
     var trailDots = [];
-    var maxTrailLength = 25; // 拖尾长度
+    var maxTrailLength = 20;
     var mouseX = width / 2;
     var mouseY = height / 2;
     var lastMouseX = mouseX;
@@ -26,75 +26,55 @@
     var mouseMoving = false;
     var moveTimer = null;
 
-    // 拖尾点类
     function TrailDot(x, y) {
         this.x = x;
         this.y = y;
-        this.size = 8;
+        this.size = 10;
         this.opacity = 0.8;
         this.life = 1.0;
-        this.decay = 0.05;
+        this.decay = 0.06;
     }
 
     TrailDot.prototype.update = function() {
         this.life -= this.decay;
-        this.opacity = this.life * 0.6;
-        this.size = 8 * this.life;
+        this.opacity = this.life * 0.7;
+        this.size = 12 * this.life;
         return this.life > 0;
     };
 
     TrailDot.prototype.draw = function() {
         ctx.beginPath();
-
-        // 彩虹渐变色
-        var hue = (Date.now() * 0.005 + this.x * 0.5) % 360;
+        var hue = (Date.now() * 0.008 + this.x * 0.5) % 360;
         var gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size);
-        gradient.addColorStop(0, `hsla(${hue}, 90%, 65%, ${this.opacity})`);
-        gradient.addColorStop(0.5, `hsla(${hue + 30}, 85%, 60%, ${this.opacity * 0.6})`);
-        gradient.addColorStop(1, `hsla(${hue + 60}, 80%, 55%, 0)`);
-
+        gradient.addColorStop(0, `hsla(${hue}, 95%, 70%, ${this.opacity})`);
+        gradient.addColorStop(0.6, `hsla(${hue + 40}, 90%, 60%, ${this.opacity * 0.5})`);
+        gradient.addColorStop(1, `hsla(${hue + 80}, 85%, 50%, 0)`);
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fillStyle = gradient;
         ctx.fill();
-
-        // 内层亮光
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size * 0.4, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${hue}, 95%, 75%, ${this.opacity})`;
-        ctx.fill();
     };
 
-    // 更新拖尾
     function updateTrail() {
         if (mouseMoving && (mouseX !== lastMouseX || mouseY !== lastMouseY)) {
             trailDots.unshift(new TrailDot(mouseX, mouseY));
-            if (trailDots.length > maxTrailLength) {
-                trailDots.pop();
-            }
+            if (trailDots.length > maxTrailLength) trailDots.pop();
             lastMouseX = mouseX;
             lastMouseY = mouseY;
         }
-
-        // 更新所有拖尾点
         for (var i = trailDots.length - 1; i >= 0; i--) {
-            if (!trailDots[i].update()) {
-                trailDots.splice(i, 1);
-            }
+            if (!trailDots[i].update()) trailDots.splice(i, 1);
         }
     }
 
-    // 绘制拖尾
     function drawTrail() {
-        for (var i = 0; i < trailDots.length; i++) {
-            trailDots[i].draw();
-        }
+        for (var i = 0; i < trailDots.length; i++) trailDots[i].draw();
     }
 
-    // ========== 星星爆炸效果 ==========
+    // ========== 全新爆炸效果 ==========
     var explosions = [];
 
-    // 星星粒子类
-    function StarParticle(x, y, vx, vy, size, color, life) {
+    // 大星星粒子
+    function BigStar(x, y, vx, vy, size, color, life, rotationSpeed) {
         this.x = x;
         this.y = y;
         this.vx = vx;
@@ -104,19 +84,19 @@
         this.life = life;
         this.maxLife = life;
         this.rotation = Math.random() * Math.PI * 2;
-        this.rotationSpeed = (Math.random() - 0.5) * 0.2;
+        this.rotationSpeed = rotationSpeed || (Math.random() - 0.5) * 0.15;
     }
 
-    StarParticle.prototype.update = function() {
+    BigStar.prototype.update = function() {
         this.x += this.vx;
         this.y += this.vy;
-        this.vy += 0.08; // 重力效果
-        this.life -= 0.02;
+        this.vy += 0.04;
+        this.life -= 0.018;
         this.rotation += this.rotationSpeed;
         return this.life > 0;
     };
 
-    StarParticle.prototype.draw = function() {
+    BigStar.prototype.draw = function() {
         var opacity = this.life / this.maxLife;
         var currentSize = this.size * opacity;
 
@@ -124,11 +104,11 @@
         ctx.translate(this.x, this.y);
         ctx.rotate(this.rotation);
 
-        // 绘制星星形状（四角星）
+        // 绘制大五角星
         ctx.beginPath();
         var spikes = 5;
         var outerRadius = currentSize;
-        var innerRadius = currentSize * 0.5;
+        var innerRadius = currentSize * 0.4;
 
         for (var i = 0; i < spikes * 2; i++) {
             var radius = i % 2 === 0 ? outerRadius : innerRadius;
@@ -143,50 +123,140 @@
         ctx.fillStyle = this.color;
         ctx.fill();
 
-        // 添加光晕
+        // 星星中心高光
         ctx.beginPath();
-        ctx.arc(0, 0, currentSize * 0.4, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 200, ${opacity * 0.6})`;
+        ctx.arc(0, 0, currentSize * 0.25, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 200, ${opacity * 0.9})`;
         ctx.fill();
 
         ctx.restore();
     };
 
-    // 爆炸类
-    function Explosion(x, y) {
-        this.particles = [];
+    // 花瓣粒子
+    function Petal(x, y, vx, vy, size, color, life) {
         this.x = x;
         this.y = y;
-        this.particleCount = 24; // 星星粒子数量
+        this.vx = vx;
+        this.vy = vy;
+        this.size = size;
+        this.color = color;
+        this.life = life;
+        this.maxLife = life;
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotationSpeed = (Math.random() - 0.5) * 0.1;
+    }
 
-        // 主色调（随机暖色）
-        this.mainHue = Math.random() * 60 + 20; // 20-80 之间的暖色（红橙黄）
+    Petal.prototype.update = function() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += 0.02;
+        this.life -= 0.015;
+        this.rotation += this.rotationSpeed;
+        return this.life > 0;
+    };
 
-        for (var i = 0; i < this.particleCount; i++) {
+    Petal.prototype.draw = function() {
+        var opacity = this.life / this.maxLife;
+        var currentSize = this.size * opacity;
+
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+
+        // 绘制花瓣形状
+        ctx.beginPath();
+        ctx.ellipse(0, 0, currentSize, currentSize * 0.7, 0, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+
+        ctx.restore();
+    };
+
+    // 闪光粒子
+    function Flash(x, y, size, color) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.color = color;
+        this.life = 0.3;
+        this.maxLife = 0.3;
+    }
+
+    Flash.prototype.update = function() {
+        this.life -= 0.03;
+        return this.life > 0;
+    };
+
+    Flash.prototype.draw = function() {
+        var opacity = this.life / this.maxLife;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * (1 - opacity), 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+
+        // 外圈光晕
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * 1.5 * (1 - opacity), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 200, 100, ${opacity * 0.4})`;
+        ctx.fill();
+    };
+
+    // 主爆炸类
+    function Explosion(x, y) {
+        this.particles = [];
+
+        // 爆炸主色调（随机暖色）
+        var mainHue = Math.random() * 360;
+
+        // 1. 3-5颗大星星（核心效果）
+        var starCount = Math.floor(Math.random() * 3) + 3; // 3-5颗
+        for (var i = 0; i < starCount; i++) {
             var angle = Math.random() * Math.PI * 2;
-            var speed = Math.random() * 5 + 2;
+            var speed = Math.random() * 4 + 1.5;
             var vx = Math.cos(angle) * speed;
             var vy = Math.sin(angle) * speed;
-            var size = Math.random() * 4 + 2;
-
-            // 颜色变化
-            var hue = this.mainHue + (Math.random() - 0.5) * 40;
-            var saturation = 85 + Math.random() * 15;
-            var lightness = 55 + Math.random() * 25;
-            var color = `hsla(${hue}, ${saturation}%, ${lightness}%, 1)`;
-
-            var life = Math.random() * 0.8 + 0.6;
-            this.particles.push(new StarParticle(x, y, vx, vy, size, color, life));
+            var size = Math.random() * 12 + 10; // 10-22px 大星星
+            var hue = (mainHue + (Math.random() - 0.5) * 60) % 360;
+            var color = `hsla(${hue}, 95%, 65%, 1)`;
+            var life = Math.random() * 0.8 + 0.7;
+            var rotSpeed = (Math.random() - 0.5) * 0.12;
+            this.particles.push(new BigStar(x, y, vx, vy, size, color, life, rotSpeed));
         }
 
-        // 额外添加小光点
-        for (var i = 0; i < 12; i++) {
+        // 2. 6-10片花瓣飘散
+        var petalCount = Math.floor(Math.random() * 5) + 6;
+        for (var i = 0; i < petalCount; i++) {
+            var angle = Math.random() * Math.PI * 2;
+            var speed = Math.random() * 6 + 2;
+            var vx = Math.cos(angle) * speed;
+            var vy = Math.sin(angle) * speed;
+            var size = Math.random() * 6 + 4;
+            // 粉色/红色/橙色系
+            var hue = (mainHue + 80 + Math.random() * 60) % 360;
+            var color = `hsla(${hue}, 85%, 65%, 0.9)`;
+            var life = Math.random() * 0.7 + 0.5;
+            this.particles.push(new Petal(x, y, vx, vy, size, color, life));
+        }
+
+        // 3. 1-2道闪光（爆炸中心）
+        var flashCount = Math.floor(Math.random() * 2) + 1;
+        for (var i = 0; i < flashCount; i++) {
+            var size = Math.random() * 25 + 20;
+            var color = `rgba(255, ${Math.floor(150 + Math.random() * 105)}, 80, 0.9)`;
+            this.particles.push(new Flash(x, y, size, color));
+        }
+
+        // 4. 少量小星尘（增加丰富度）
+        var dustCount = 8;
+        for (var i = 0; i < dustCount; i++) {
             var angle = Math.random() * Math.PI * 2;
             var speed = Math.random() * 8 + 3;
             var vx = Math.cos(angle) * speed;
             var vy = Math.sin(angle) * speed;
-            var color = `hsla(${this.mainHue + 20}, 90%, 70%, 1)`;
-            this.particles.push(new StarParticle(x, y, vx, vy, 2, color, 0.5));
+            var size = Math.random() * 4 + 2;
+            var color = `hsl(${mainHue + 30}, 90%, 70%)`;
+            var life = Math.random() * 0.5 + 0.3;
+            this.particles.push(new BigStar(x, y, vx, vy, size, color, life, 0.2));
         }
     }
 
@@ -205,75 +275,42 @@
         }
     };
 
-    // 添加爆炸效果
     function addExplosion(x, y) {
         explosions.push(new Explosion(x, y));
-
-        // 限制同时存在的爆炸数量
-        if (explosions.length > 8) {
-            explosions.shift();
-        }
+        if (explosions.length > 5) explosions.shift();
     }
 
-    // 更新所有爆炸
     function updateExplosions() {
         for (var i = explosions.length - 1; i >= 0; i--) {
-            if (!explosions[i].update()) {
-                explosions.splice(i, 1);
-            }
+            if (!explosions[i].update()) explosions.splice(i, 1);
         }
     }
 
-    // 绘制所有爆炸
     function drawExplosions() {
-        for (var i = 0; i < explosions.length; i++) {
-            explosions[i].draw();
-        }
+        for (var i = 0; i < explosions.length; i++) explosions[i].draw();
     }
 
-    // ========== 鼠标事件监听 ==========
-
-    // 记录鼠标位置
+    // ========== 鼠标事件 ==========
     function onMouseMove(e) {
         mouseX = e.clientX;
         mouseY = e.clientY;
-
-        if (!mouseMoving) {
-            mouseMoving = true;
-        }
-
-        // 鼠标停止移动后逐渐淡化拖尾
+        if (!mouseMoving) mouseMoving = true;
         clearTimeout(moveTimer);
-        moveTimer = setTimeout(function() {
-            mouseMoving = false;
-        }, 50);
+        moveTimer = setTimeout(function() { mouseMoving = false; }, 50);
     }
 
-    // 鼠标点击星星爆炸
     function onMouseClick(e) {
-        var x = e.clientX;
-        var y = e.clientY;
-        addExplosion(x, y);
-
-        // 添加点击震动效果
-        /*document.body.style.transform = 'translate(1px, 1px)';
-        setTimeout(function() {
-            document.body.style.transform = '';
-        }, 50);*/
+        addExplosion(e.clientX, e.clientY);
     }
 
-    // 触摸屏支持
     function onTouchMove(e) {
         e.preventDefault();
         var touch = e.touches[0];
         mouseX = touch.clientX;
         mouseY = touch.clientY;
         mouseMoving = true;
-
         clearTimeout(moveTimer);
-        moveTimer = setTimeout(function() {
-            mouseMoving = false;
-        }, 50);
+        moveTimer = setTimeout(function() { mouseMoving = false; }, 50);
     }
 
     function onTouchStart(e) {
@@ -282,7 +319,6 @@
         addExplosion(touch.clientX, touch.clientY);
     }
 
-    // ========== 窗口大小适配 ==========
     function resize() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -290,30 +326,21 @@
         height = canvas.height;
     }
 
-    // ========== 动画循环 ==========
     function animate() {
-        // 清空画布（使用透明背景清除，让效果叠加）
         ctx.clearRect(0, 0, width, height);
-
-        // 更新和绘制拖尾
         updateTrail();
         drawTrail();
-
-        // 更新和绘制爆炸
         updateExplosions();
         drawExplosions();
-
         requestAnimationFrame(animate);
     }
 
-    // 监听事件
     window.addEventListener('resize', resize);
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('click', onMouseClick);
     document.addEventListener('touchmove', onTouchMove);
     document.addEventListener('touchstart', onTouchStart);
 
-    // 初始化
     resize();
     animate();
 })();
